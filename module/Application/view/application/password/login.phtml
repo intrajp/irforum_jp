@@ -1,0 +1,40 @@
+  <script>
+  </script>
+  <script src="<?php echo $this->basePath() ?>/js/regex.js"></script>
+  <script src="<?php echo $this->basePath() ?>/js/control2.js"></script>
+  <script src="<?php echo $this->basePath() ?>/js/controlPassword.js"></script>
+  <?php
+    if($form!=0){
+      $form = $this->form;
+      $form->setAttribute('action', $this->url(
+        'application',
+        array(
+          'id' => 'quick-booking-form2',
+          'name' => 'form2',
+          'controller' => 'password',
+          'action'     => 'login',
+        )
+      ));
+    }
+  ?>
+  <?php
+    if($loginName){
+      echo $loginName . " としてログイン中です";
+    }
+  ?>
+  <?php
+    if($form!=0){
+      echo "<form id=\"quick-booking-form2\" name=\"form2\" method=\"post\" action=\"javascript:return false\">";
+      //echo "<form id=\"quick-booking-form2\" name=\"form2\" method=\"post\" action=\"$url\">";
+      //echo $this->form()->openTag($form);
+      echo $this->formRow($form->get('loginName'));
+      echo "<br />";
+      echo $this->formRow($form->get('password'));
+      echo "<br />";
+      echo $this->formSubmit($form->get('quickregisterLogin'));
+      echo "<br />";
+      echo $this->form()->closeTag();
+    }
+  ?>
+  <span id="dialog"></span>
+

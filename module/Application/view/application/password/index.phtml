@@ -1,0 +1,240 @@
+  <script>
+    $(document).ready(function(){
+      /*The load function is asynchronous.
+        I had to put my code inside the load function's callback,
+         so that it will only run after the new content is loaded:
+      */
+      $("#prefSelection").load("/irforum/application/list/index",function () {
+        $("#prefSelection option:first-child").remove();
+        var prefId = $("#prefIdFromDb").val();
+        var prefNameKanji = $("#prefNameKanjiFromDb").val();
+        $("<option value=\""+ prefId +"\" selected>" + prefNameKanji + "</option>").insertBefore("#prefSelection option:first");
+      });
+    });
+  </script>
+  <br />
+  <script src="<?php echo $this->basePath() ?>/js/regex.js"></script>
+  <script src="<?php echo $this->basePath() ?>/js/control2.js"></script>
+  <script src="<?php echo $this->basePath() ?>/js/controlPassword.js"></script>
+  <script src="<?php echo $this->basePath() ?>/js/controlUpdateUserTpl.js"></script>
+  
+  <?php
+    if($form==0){
+      echo "<a href=\"/irforum/application/password/config\">設定ページへ</a>";
+      echo "<br />";
+    }
+  ?>
+  <?php
+    if($loginName){
+      echo $loginName . " としてログイン中です";
+    }
+  ?>
+  <?php
+    if($form!=0){
+      echo "<form id=\"quick-booking-form2\" name=\"form2\" method=\"post\" action=\"javascript:return false\">";
+      //echo "<form id=\"quick-booking-form2\" name=\"form2\" method=\"post\" action=\"$url\">";
+      //echo $this->form()->openTag($form);
+      echo $this->formRow($form->get('loginName'));
+      echo "<br />";
+      echo $this->formRow($form->get('password'));
+      echo "<br />";
+      echo $this->formSubmit($form->get('quickregisterLogin'));
+      echo "<br />";
+      echo $this->form()->closeTag();
+    }
+  ?>
+  <?php
+    if($form2!=0){
+      $form2 = $this->form2;
+      $form2->setAttribute('action', $this->url(
+        'application',
+          array(
+          'id' => 'quick-booking-form3',
+          'name' => 'form3',
+          'controller' => 'password',
+          'action'     => 'index',
+        )
+      ));
+      echo $this->form()->openTag($form2);
+      echo $this->formRow($form2->get('surNameYomi'));
+      echo $this->formSubmit($form2->get('quickregisterSearch'));
+      echo "<br />";
+      echo $this->form()->closeTag();
+    }
+  ?>
+  <?php
+    if($paginator){ 
+      echo "<a href=\"/irforum/application/password/logout\">ログアウト</a>";
+      echo "<table class='table'>";
+      echo "<tr>";
+      echo "<th>フォーラムId</th>";
+      echo "<th>氏名</th>";
+      echo "<th>よみがな</th>";
+      echo "<th>メール</th>";
+      echo "<th>郵便番号</th>";
+      echo "<th>都道府県</th>";
+      echo "<th>市等</th>";
+      echo "<th>町等</th>";
+      //echo "<th>ビル等</th>";
+      //echo "<th>電話番号</th>";
+      echo "<th>確認</th>";
+      echo "<th>&nbsp;</th>";
+      echo "</tr>";
+    }
+  ?>
+  <?php if($paginator){
+    foreach ($this->paginator as $list) : ?> 
+    <tr>
+    <td>
+    <?php echo $this->escapeHtml($list->forum_id);?>
+    </td>
+    <td>
+    <?php echo $this->escapeHtml($list->surname);?>
+    <?php echo $this->escapeHtml($list->firstname);?>
+    </td>
+    <td>
+    <?php echo $this->escapeHtml($list->surname_yomi);?>
+    <?php echo $this->escapeHtml($list->firstname_yomi);?>
+    </td>
+    <td>
+    <?php echo $this->escapeHtml($list->email);?>
+    </td>
+    <td>
+    <?php echo $this->escapeHtml($list->zip_first);?>
+    - <?php echo $this->escapeHtml($list->zip_last);?>
+    </td>
+    <td>
+    <?php echo $this->escapeHtml($list->pref_name_kanji);?>
+    </td>
+    <td>
+    <?php echo $this->escapeHtml($list->city);?>
+    </td>
+    <td>
+    <?php echo $this->escapeHtml($list->town);?>
+    </td>
+    <!--
+    <td>
+    <?php //echo $this->escapeHtml($list->building);?>
+    </td>
+    -->
+    <!--
+    <td>
+    <?php //echo $this->escapeHtml($list->phone_first);?>
+    - <?php //echo $this->escapeHtml($list->phone_second);?>
+    - <?php //echo $this->escapeHtml($list->phone_third);?>
+    </td>
+    -->
+    <td>
+    <a href="/irforum/application/password/index?userId=<?php echo $this->escapeHtml($list->user_id);?>">確認する</a>
+    </td>
+    <td>
+    </td>
+    </tr>
+  <?php
+      endforeach; 
+    }
+  ?>
+  <?php if($paginator){ echo "</table>";} ?>
+  <?php
+    if($paginator){ 
+      echo $this->paginationControl(
+        $this->paginator,
+        'sliding',
+        array('application/partial/paginator.phtml', 'password'),
+        array(
+          'route2' => 'passwd'
+        )
+      );
+    }
+  ?>
+  <?php
+    if($form3!=0){
+      foreach ($iruserData as $list) : 
+        $userIdFromDb = $list->user_id;
+        $surNameFromDb = $list->surname;
+        $firstNameFromDb = $list->firstname;
+        $surNameYomiFromDb = $list->surname_yomi;
+        $firstNameYomiFromDb = $list->firstname_yomi;
+        $emailFromDb = $list->email;
+        $zipFirstFromDb = $list->zip_first;
+        $zipLastFromDb = $list->zip_last;
+        $prefIdFromDb = $list->pref_id;
+        $prefNameKanjiFromDb = $list->pref_name_kanji;
+        $cityFromDb = $list->city;
+        $townFromDb = $list->town;
+        $buildingFromDb = $list->building;
+        $phoneFirstFromDb = $list->phone_first;
+        $phoneSecondFromDb = $list->phone_second;
+        $phoneThirdFromDb = $list->phone_third;
+        $forumIdFromDb = $list->forum_id;
+        $titleFromDb = $list->title;
+        $activeFromDb = $list->active;
+      endforeach;
+      echo "<br />";
+      echo "<a href=\"/irforum/application/password/login\">管理画面に戻る</a>";
+      echo "<br />";
+      echo "管理番号 " . $userIdFromDb . " 番さんの情報です";
+      echo "<br />";
+///////////////////////////////////////////////////////////////
+      $form = $this->form3;
+      $form->setAttribute('action', $this->url(
+        'application',
+          array(
+            'controller' => 'index',
+            'action'     => 'index',
+          )
+      ));
+      echo "<form id=\"quick-booking-form3\" name=\"form3\" method=\"post\" action=\"javascript:return false\">";
+      //echo "<form id=\"quick-booking-form3\" name=\"form3\" method=\"post\" action=\"/irforum/application/password/update\">";
+      echo "<br />";
+      echo "フォーラムId (タイトル) :";
+      echo $forumIdFromDb . "(" . $titleFromDb . ")";
+      echo "<br />";
+      echo "ご芳名:";
+      echo $this->formRow($form->get('userId')->setAttribute('value', "$userIdFromDb") );
+      echo $this->formRow($form->get('surName')->setAttribute('value', "$surNameFromDb") );
+      echo $this->formRow($form->get('firstName')->setAttribute('value', "$firstNameFromDb") );
+      echo "<br />";
+      echo "よみがな:";
+      echo $this->formRow($form->get('surNameYomi')->setAttribute('value', "$surNameYomiFromDb") );
+      echo $this->formRow($form->get('firstNameYomi')->setAttribute('value', "$firstNameYomiFromDb") );
+      echo "<br />";
+      echo "メールアドレス:"; 
+      echo $this->formRow($form->get('email')->setAttribute('value', "$emailFromDb") );
+      echo "<br />";
+      echo "郵便番号:"; 
+      echo $this->formRow($form->get('zipFirst')->setAttribute('value', "$zipFirstFromDb") );
+      echo " - ";
+      echo $this->formRow($form->get('zipLast')->setAttribute('value', "$zipLastFromDb") );
+      echo "<br />";
+      echo "住所（都道府県）:"; 
+      echo $this->formRow($form->get('prefId') );
+      echo "<br />";
+      echo "住所（市等）:"; 
+      echo $this->formRow($form->get('city')->setAttribute('value', "$cityFromDb") );
+      echo "<br />";
+      echo "住所（町等）:"; 
+      echo $this->formRow($form->get('town')->setAttribute('value', "$townFromDb") );
+      echo "<br />";
+      echo "住所（ビル等）:"; 
+      echo $this->formRow($form->get('building')->setAttribute('value', "$buildingFromDb") );
+      echo "<br />";
+      echo "電話番号:"; 
+      echo $this->formRow($form->get('phoneFirst')->setAttribute('value', "$phoneFirstFromDb") );
+      echo " - ";
+      echo $this->formRow($form->get('phoneSecond')->setAttribute('value', "$phoneSecondFromDb") );
+      echo " - ";
+      echo $this->formRow($form->get('phoneThird')->setAttribute('value', "$phoneThirdFromDb") );
+      echo "<br />";
+      echo $this->formRow($form->get('prefIdFromDb')->setAttribute('value', "$prefIdFromDb") );
+      echo $this->formRow($form->get('prefNameKanjiFromDb')->setAttribute('value', "$prefNameKanjiFromDb") );
+      echo "<p class=\"privacyTxt\">個人情報の取り扱いに同意のうえ、お進みください。(略)</p>";
+      echo $this->formRow($form->get('checkBox'));
+      echo "<br />";
+      echo $this->formSubmit($form->get('quickregisterUpdate'));
+      echo $this->formSubmit($form->get('quickregisterDelete'));
+      echo $this->form()->closeTag();
+    }
+  ?>
+  <span id="dialog"></span>
+

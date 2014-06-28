@@ -1,0 +1,10 @@
+<?php foreach ($zip as $zips ) : ?>
+<?php echo $this->escapeHtml(trim($zips['city'])); ?>
+,
+<?php echo $this->escapeHtml(trim($zips['town'])); ?>
+,
+<?php echo $this->escapeHtml(trim($zips['pref_id'])); ?>
+,
+<?php echo $this->escapeHtml(trim($zips['pref_name_kanji'])); ?>
+,
+<?php endforeach; ?>

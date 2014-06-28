@@ -1,0 +1,100 @@
+  <script>
+    $(init);
+    /*loads when dom tree is loaded*/
+    function init(){
+      $("#prefSelection").load("application/list/index");
+    }
+  </script>
+  <script src="<?php echo $this->basePath() ?>/js/control.js"></script>
+  <script src="<?php echo $this->basePath() ?>/js/controlIndexTpl.js"></script>
+  <script src="<?php echo $this->basePath() ?>/js/regex.js"></script>
+  <a href="<?php echo $this->basePath() . "/application/password/login"; ?>">管理者ページ</a>
+  <br />
+  <?php
+    if($forumExists == -1){
+      echo "アクティヴなフォーラムがありません。管理者ページからフォーラムを有効にしてください。";
+    }elseif($forumExists == 1){
+      if($paginator){
+        foreach ($this->paginator as $list) :
+          echo "<h1>" . $list->title . "</h1>";
+          echo "<h2>開催日は、" . $list->date . "です。</h2>";
+          $forumId= $list->forum_id;
+        endforeach; 
+      }
+      $form = $this->form;
+      $form->setAttribute('action', $this->url(
+         'application',
+         array(
+           'controller' => 'index',
+           'action'     => 'index',
+         )
+      ));
+      echo "<form id=\"quick-booking-form\" name=\"form1\" method=\"post\" action=\"javascript:return false\">";
+      //echo "<form id=\"quick-booking-form\" name=\"form1\" method=\"post\" action=\"/irforum/application/iruser/add\">";
+      echo "<table>";
+      echo "<tr><td>";
+      echo "ご芳名 ";
+      echo "</td><td>";
+      echo $this->formRow($form->get('surName'));
+      echo $this->formRow($form->get('firstName'));
+      echo "</td></tr>";
+      echo "<tr><td>";
+      echo "よみがな ";
+      echo "</td><td>";
+      echo $this->formRow($form->get('surNameYomi'));
+      echo $this->formRow($form->get('firstNameYomi'));
+      echo "</td></tr>";
+      echo "<tr><td>";
+      echo "メールアドレス ";
+      echo "</td><td>";
+      echo $this->formRow($form->get('email'));
+      echo "</td></tr>";
+      echo "<tr><td>";
+      echo "郵便番号 "; 
+      echo "</td><td>";
+      echo $this->formRow($form->get('zipFirst'));
+      echo " - ";
+      echo $this->formRow($form->get('zipLast'));
+      echo "</td></tr>";
+      echo "<tr><td>";
+      echo "住所（都道府県）"; 
+      echo "</td><td>";
+      echo $this->formRow($form->get('prefId'));
+      echo "</td></tr>";
+      echo "<tr><td>";
+      echo "住所（市等）"; 
+      echo "</td><td>";
+      echo $this->formRow($form->get('city'));
+      echo "</td></tr>";
+      echo "<tr><td>";
+      echo "住所（町等）";
+      echo "</td><td>";
+      echo $this->formRow($form->get('town'));
+      echo "</td></tr>";
+      echo "<tr><td>";
+      echo "住所（ビル等）"; 
+      echo "</td><td>";
+      echo $this->formRow($form->get('building'));
+      echo "</td></tr>";
+      echo "<tr><td>";
+      echo "電話番号 ";
+      echo "</td><td>";
+      echo $this->formRow($form->get('phoneFirst'));
+      echo " - ";
+      echo $this->formRow($form->get('phoneSecond'));
+      echo " - ";
+      echo $this->formRow($form->get('phoneThird'));
+      echo "</td></tr>";
+      echo "<tr><td colspan=\"2\">";
+      echo "<p class=\"privacyTxt\">個人情報の取り扱いに同意のうえ、お進みください。(略)</p>";
+      echo $this->formRow($form->get('checkBox'));
+      echo "<br />";
+      echo $this->formSubmit($form->get('quickregister'));
+      echo "<input type=\"hidden\" name=\"forumId\" id=\"forumId\" value=\"$forumId\">";
+      echo $this->form()->closeTag();
+      echo "</td></tr>";
+      echo "</table>";
+    }
+  ?>
+  <span id="dialog"></span>
+

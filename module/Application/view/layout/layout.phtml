@@ -1,0 +1,63 @@
+<?php echo $this->doctype(); ?>
+<html lang="jp">
+    <head>
+        <meta name="robots" content="index,follow">
+        <meta http-equiv="pragma" content="no-cache">
+        <meta charset="utf-8">
+        <meta name="keywords" content=""> 
+        <meta name="description" content="">
+        <title>irフォーラム</title>
+        <?php
+        echo $this->headTitle('ZF2 '. $this->translate('irフォーラム'))->setSeparator(' - ')->setAutoEscape(false)
+        ?>
+        <?php
+        echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+        <!-- Le styles -->
+        <?php
+        echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->prependStylesheet($this->basePath() . '/css/style.css')
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
+        ?>
+        <!-- Scripts -->
+        <?php
+        echo $this->headScript()
+        ;
+        ?>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script type="text/javascript">
+        $(init);
+        function init(){
+          $(".red").css("color", "red");
+          $(".bold").css('font-weight','bold');
+        }
+        </script>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="<?php echo $this->url('home')?>"><img src="<?php echo $this->basePath('img/zf2-logo.png')?>" alt="Zend Framework 2"/>&nbsp;<?php echo $this->translate('irフォーラム')?></a>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <?php echo $this->content;?>
+            <hr>
+            <footer>
+                <p>CopyRight (C) 2014 Shintaro Fujiwara All Rights Reserved.</p>
+            </footer>
+        </div> <!-- /container -->
+        <?php echo $this->inlineScript()?>
+    </body>
+</html>

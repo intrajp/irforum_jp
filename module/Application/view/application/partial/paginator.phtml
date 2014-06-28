@@ -1,0 +1,67 @@
+<?php if ($this->pageCount): ?>
+  <div class="pagination pagination-centered">
+    <ul>
+
+      <!-- First page link -->
+        <?php if (isset($this->first)): ?>
+          <a href="<?php echo $this->url($this->route2); ?>?page=<?php echo $this->first; ?>">
+            最初 
+          </a>
+        <?php else: ?>
+          <a href="#">
+            最初 
+          </a>
+        <?php endif; ?>
+      <!-- end First page link -->
+
+      <!-- Previous page link -->
+        <?php if (isset($this->previous)): ?>
+          <a href="<?php echo $this->url($this->route2); ?>?page=<?php echo $this->previous; ?>">
+            <<
+          </a>
+        <?php else: ?>
+          <a href="#">
+            <<
+          </a>
+        <?php endif; ?>
+      <!-- end Previous page link -->
+
+      <!-- Numbered page links -->
+        <?php foreach ($this->pagesInRange as $page): ?>
+        <?php if ($page != $this->current): ?>
+          <a href="<?php echo $this->url($this->route2);?>?page=<?php echo $page; ?>">
+        <?php echo $page; ?>
+          </a>
+        <?php else: ?>
+          <!--<a href="#">--><span class="bold"><?php echo $page; ?></span><!--</a>-->
+        <?php endif; ?>
+        <?php endforeach; ?>
+      <!-- end Numbered page links -->
+
+      <!-- Next page link -->
+        <?php if (isset($this->next)): ?>
+          <a href="<?php echo $this->url($this->route2); ?>?page=<?php echo $this->next; ?>">
+            >>
+          </a>
+        <?php else: ?>
+          <a href="#">
+            >>
+          </a>
+        <?php endif; ?>
+      <!-- end Next page link -->
+
+      <!-- Last page link -->
+        <?php if (isset($this->last)): ?>
+          <a href="<?php echo $this->url($this->route2); ?>?page=<?php echo $this->last; ?>">
+            最後 
+          </a>
+        <?php else: ?>
+          <a href="#">
+            最後 
+          </a>
+        <?php endif; ?>
+      <!-- end Last page link -->
+
+    </ul>
+  </div>
+<?php endif; ?>

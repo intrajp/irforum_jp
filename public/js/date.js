@@ -1,0 +1,12 @@
+  $(function(){
+    $("#datepicker").datepicker({
+      dateformat:'yy年mm月dd日',
+      minDate:'-1m-3d-0y',
+      maxDate:'+3m+5d+0y',
+      dayNamesMin:["日","月","火","水","木","金","土"],
+      monthNames:["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],
+      firstDay:0,
+      showOthermonths:'ture',
+      showMonthAfterYear:'ture',
+    });
+  });

@@ -1,0 +1,64 @@
+  <script>
+  </script>
+  <script src="<?php echo $this->basePath() ?>/js/control3.js"></script>
+  <script src="<?php echo $this->basePath() ?>/js/regex.js"></script>
+  <script src="<?php echo $this->basePath() ?>/js/controlForumTpl.js "></script>
+  <script src="<?php echo $this->basePath() ?>/js/date.js"></script>
+  <br />
+  <a href="/irforum/application/password/index">管理ページへ</a>
+  <br />
+  <a href="/irforum/application/password/addforum">フォーラム登録</a>
+  <br />
+  <?php
+    if($loginName){
+      echo $loginName . " としてログイン中です";
+    }
+  ?>
+  <?php if($paginator_config){ echo "<table border=\"1\">";} ?>
+  <?php if($paginator_config){ echo "<tr><td>sysno</td>";} ?>
+  <?php if($paginator_config){ echo "<td>フォーラム日程一覧</td>";} ?>
+  <?php if($paginator_config){ echo "<td>タイトル</td>";} ?>
+  <?php if($paginator_config){ echo "<td>アクティヴ</td>";} ?>
+  <?php if($paginator_config){ echo "<td>登録ユーザ確認</td>";} ?>
+  <?php if($paginator_config){ echo "<td>設定</td></tr>";} ?>
+  <?php if($paginator_config){
+    foreach ($this->paginator_config as $list) : // <-- change here! ?>
+    <tr>
+    <td>
+    <?php echo $this->escapeHtml($list->forum_id);?>
+    </td>
+    <td>
+    <?php echo $this->escapeHtml($list->date);?>
+    </td>
+    <td>
+    <?php echo $this->escapeHtml($list->title);?>
+    </td>
+    <td>
+    <?php echo $this->escapeHtml($list->active);?>
+    </td>
+    <td>
+    <a href="/irforum/application/password/index?forumId=<?php echo $this->escapeHtml($list->forum_id);?>">登録ユーザ確認</a>
+    </td>
+    <td>
+    <a href="/irforum/application/password/updateforum?forumId=<?php echo $this->escapeHtml($list->forum_id);?>">修正する</a>
+    </td>
+    </tr>
+  <?php
+      endforeach; 
+    }
+  ?>
+  <?php if($paginator_config){ echo "</table>";} ?>
+  <?php
+    if($paginator_config){ 
+      echo $this->paginationControl(
+        $this->paginator_config,
+        'sliding',
+        array('application/partial/paginator_config.phtml', 'password'),
+        array(
+          'route' => 'passwd2'
+        )
+      );
+    }
+  ?>
+  <span id="dialog"></span>
+

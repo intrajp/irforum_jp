@@ -1,0 +1,43 @@
+  <script>
+  </script>
+  <script src="<?php echo $this->basePath() ?>/js/control3.js"></script>
+  <script src="<?php echo $this->basePath() ?>/js/regex.js"></script>
+  <script src="<?php echo $this->basePath() ?>/js/controlForumTpl.js "></script>
+  <script src="<?php echo $this->basePath() ?>/js/date.js"></script>
+  <br />
+  <a href="/irforum/application/password/config">設定ページへ</a>
+  <br />
+  <?php
+    if($loginName){
+      echo $loginName . " としてログイン中です";
+    }
+  ?>
+  <!--<p>フォーラムの日程を選択して下さい:<input type="text" id="datepicker" /></p>-->
+  <?php
+    echo "<br />";
+    echo "フォーラムの登録等:";
+    //echo $this->form()->openTag($formForum);
+    echo "<form id=\"quick-booking-form4\" name=\"form4\" method=\"post\" action=\"javascript:return false\">";
+    //echo "<form id=\"quick-booking-form4\" name=\"form4\" method=\"post\" action=\"/irforum/application/password/addforum\">";
+    echo "<table>";
+    echo "<tr><td>";
+    echo "日程を設定して下さい";
+    echo "</td><td>";
+    echo $this->formRow($formForum->get('datepicker'));
+    echo "</td></tr>";
+    echo "<tr><td>";
+    echo "フォーラムのタイトルを決めて下さい";
+    echo "</td><td>";
+    echo $this->formRow($formForum->get('title'));
+    echo "</td></tr>";
+    echo "<tr><td>";
+    echo $this->formRow($formForum->get('checkBox'));
+    echo "</td></tr>";
+    echo "<tr><td>";
+    echo $this->formSubmit($formForum->get('quickregisterForum'));
+    echo "</td></tr>";
+    echo "</table>";
+    echo $this->form()->closeTag();
+  ?>
+  <span id="dialog"></span>
+

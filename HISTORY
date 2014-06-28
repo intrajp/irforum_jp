@@ -1,0 +1,115 @@
+20140627 irforum-3.0 
+  フォーラム毎にユーザ登録を確認できるようにした。
+20140624 irforum-2.991 
+  forumteテーブルとiruserテーブルを連動させた（登録のみ）
+20140623 irforum-2.990 
+  Password controllerを修正した。
+  forumテーブルをpaginatorに対応するように修正した。 
+  activeにできるforumを1つだけにするよう、コードを追加した。
+20140622 irforum-2.98 
+  Password controllerを修正した。
+  forumテーブルの修正・削除を、jQueryを通して行うように修正した。 
+  ユーザの修正が出来無いバグを修正した。
+20140621 irforum-2.97 
+  Password controllerを修正した。
+  forumテーブルを修正・削除出来るようにした。
+20140617 irforum-2.96 
+  Password controllerを修正した。
+  forumテーブルに列を追加した。
+20140612 irforum-2.95 
+  Password controllerを修正した。
+  現在のログイン名が出なくなっていた問題を修正した。
+20140609 irforum-2.94 
+  forumテーブルを追加した。
+  管理ページにおいて、設定画面を追加した。 
+  paginator機能において、現在のページがわかるようにした。
+20140607 irforum-2.93 
+  ログインページにおいてjQueryによる文字列検査を導入した。 
+20140607 irforum-2.92 
+  ログイン機能を、インデックスアクションから、ログインアクションに移行した。
+20140606 irforum-2.91 
+  削除機能を追加した。 
+20140604 irforum-2.90 
+  検索時にセッションが働かない問題を解決するため、Password Controller を修正した。
+20140602 irforum-2.80 
+  InputFilterにregexを追加した。
+20140601 irforum-2.70 
+  InputFilterを追加・修正した。
+  control.jsを修正した。 
+  control2.jsを修正した。 
+20140531 irforum-2.60 
+  InputFilterを追加した。
+  regex.jsを修正した。 
+20140531 irforum-2.50 
+  編集機能を追加した。
+20140525 irforum-2.40 
+  検索機能を追加した。
+20140524 irforum-2.30 
+  管理機能からログアウトする機能を追加した。
+  PasswordControllerを修正した。
+20140520 irforum-2.20 
+  管理機能を認証クラスで書き直し。
+  同時に、セッション機能の追加。
+  管理機能に、ユーザの一覧のページ機能の追加。
+20140517 irforum-2.10 
+  管理機能の追加。
+  データベースに、passwordテーブルを追加。パスワードは暗号化して保存。 
+  管理機能は、ユーザの一覧を1ページで閲覧するのみの機能。
+  jQuery ファイルの微修正。
+20140510 irforum-2.00 
+  Zend Framework 2 のスケルトンアプリケーションにした。 
+  登録、メール送信のみの機能の実装。
+20140506 irforum-1.20 
+  ファイルヒエラルヒー、 パスを変更し、関係箇所を全て修正した。
+  Zend Framework 2 を同梱、コアクラスを作り、メール送信機能を継承して使用した。
+20140430 irforum-1.18
+  多数のクラスファイル、テンプレートファイル、PHPファイルを修正した。
+20140427 irforum-1.17
+  selectEmailFromUserPost.class.phpを微修正した。
+  loadListUser.phpリンクをクリックした際、県名の一件目を削除するようにした。
+  updateUser.tplから県名を削除し、自動ロードするようにした。
+  selectPrefNameKanji.class.php のバグを修正した。
+20140426 irforum-1.16
+  selectEmailFromUserPost.class.php を class directoryに加えた。
+  insertUser.php にチェック機能を追加。
+  controlIndexTpl.js に email の重複をチェックする機能を追加。 
+20140424 irforum-1.15
+  insertUserData.class.php ファイルをクラスに追加。insertUser.phpファイルを修正。
+20140420 irforum-1.14
+  listPref 関数をクラスに加えた。
+20140419 irforum-1.13
+  郵便番号から住所が検索表示できる機能の追加
+20140417 irforum-1.12
+  jQueryのコードを分けた。
+20140415 irforum-1.11
+  index.tplにおいて、名前、住所の正規表現を追加した。
+20140413 irforum-1.10
+  index.tplにおいて、ひらがなの正規表現を追加した。
+20140413 irforum-1.9  
+  index.tplにおいて、メールアドレスの正規表現を追加した。
+20140413 irforum-1.8  
+  登録の確認画面をjQueryで改善した。index.tplのコード量が大幅に増加。
+20140412 irforum-1.7  
+  登録画面をjQueryで改善した。
+20140412 irforum-1.6  
+  本文タイトル,ヘッダ内のキーワードを設定可能に
+  javascriptコードをjQueryコードに完全置き換え
+20140411 irforum-1.5  
+  phpファイルから?>を除去。
+  一部のjavascriptコードをjQueryコードに変更。 
+20140406 irforum-1.4  
+20140405 irforum-1.3   
+  クラスファイルを別ディレクトリに移動し、継承化
+  テンプレートファイルを分割                       
+  emailの正規表現の見直し
+  adminディレクトリにセッション機能を付加
+  設定画面の作成（データベース化）と修正機能作成
+20140404 irforum-1.2 
+  ヘッダー用のテンプレートファイルを分離
+20140330 irforum-1.1 
+  install.sh の修正と、ファイルクリーンアップ
+20140330 irforum-1.0
+  藤原 慎太郎 による新規リリース
+20140326
+  株式会社マジカルポケット代表取締役社長からのIRフォーラム用プログラムの提案有
+

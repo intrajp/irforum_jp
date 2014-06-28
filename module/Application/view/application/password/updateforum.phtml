@@ -1,0 +1,65 @@
+  <script>
+    $(document).ready(function(){
+      /*The load function is asynchronous.
+        I had to put my code inside the load function's callback,
+         so that it will only run after the new content is loaded:
+      */
+    });
+  </script>
+  <br />
+  <script src="<?php echo $this->basePath() ?>/js/control3.js"></script>
+  <script src="<?php echo $this->basePath() ?>/js/regex.js"></script>
+  <script src="<?php echo $this->basePath() ?>/js/controlForumUpdateTpl.js "></script>
+  <script src="<?php echo $this->basePath() ?>/js/date.js"></script>
+  
+  <?php
+    echo "<a href=\"/irforum/application/password/config\">設定ページへ</a>";
+    echo "<br />";
+  ?>
+  <?php
+    if($loginName){
+      echo $loginName . " としてログイン中です";
+    }
+  ?>
+  <?php
+//    if($form3!=0){
+      foreach ($forumData as $list) : 
+        $forumIdFromDb = $list->forum_id;
+        $dateFromDb = $list->date;
+        $titleFromDb = $list->title;
+        $activeFromDb = $list->active;
+      endforeach;
+      echo "<br />";
+      echo "<a href=\"/irforum/application/password/login\">管理画面に戻る</a>";
+      echo "<br />";
+      echo "管理番号 " . $forumIdFromDb . " 番のフォーラム情報です";
+      echo "<br />";
+///////////////////////////////////////////////////////////////
+      $form = $this->form;
+      $form->setAttribute('action', $this->url(
+        'application',
+          array(
+            'controller' => 'password',
+            'action'     => 'config',
+          )
+      ));
+      echo "<form id=\"quick-booking-form5\" name=\"form5\" method=\"post\" action=\"javascript:return false\">";
+      //echo "<form id=\"quick-booking-form5\" name=\"form5\" method=\"post\" action=\"/irforum/application/password/updateforum\">";
+      echo "<br />";
+      echo "日程:";
+      echo $this->formRow($form->get('datepicker')->setAttribute('value', "$dateFromDb") );
+      echo "<br />";
+      echo "タイトル:"; 
+      echo $this->formRow($form->get('title')->setAttribute('value', "$titleFromDb") );
+      echo "<br />";
+      echo $this->formRow($form->get('checkBox')->setAttribute('value', "$activeFromDb") );
+      echo "<br />";
+      echo $this->formRow($form->get('forumId')->setAttribute('value', "$forumIdFromDb") );
+      echo "<br />";
+      echo $this->formSubmit($form->get('quickregisterForumUpdate'));
+      echo $this->formSubmit($form->get('quickregisterForumDelete'));
+      echo $this->form()->closeTag();
+ //   }
+  ?>
+  <span id="dialog"></span>
+
