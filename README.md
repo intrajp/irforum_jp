@@ -1,4 +1,4 @@
-20140627 irforum-v3.0
+20140630 irforum-v3.01
 
 このプログラムは、藤原 慎太郎 が作成しました。
 今のところ、ユーザーのオンライン登録(メール送信を含む)、管理者画面における一覧表示・検索機能を持っています。
@@ -171,10 +171,10 @@ Indexes:
     "c1" UNIQUE CONSTRAINT, btree (date)
 ///////////////////////////////////
 iruserテーブルは、以下のコマンドで作成できます。
+primary key に2つのカラムを指定しています。
+これにより、異なるフォーラムへの同一ユーザ（同一メールアドレス）の登録が可能になります。 
 
-emailをuniqueにすることを忘れないように！
-
-#create table iruser(user_id bigint primary key,surname varchar(50) not null,firstname varchar(50) not null,surname_yomi varchar(100) not null,firstname_yomi varchar(100) not null,zip_first varchar(3) not null,zip_last varchar(4) not null,pref_id integer references pref(pref_id),city varchar(100) not null,town varchar(100), building varchar(100),phone_first varchar(5) not null, phone_second varchar(4) not null, phone_third varchar(4) not null,email varchar(100) unique not null,forum_id bigint references forum(forum_id));
+#create table iruser(user_id bigint,surname varchar(50) not null,firstname varchar(50) not null,surname_yomi varchar(100) not null,firstname_yomi varchar(100) not null,zip_first varchar(3) not null,zip_last varchar(4) not null,pref_id integer references pref(pref_id),city varchar(100) not null,town varchar(100), building varchar(100),phone_first varchar(5) not null, phone_second varchar(4) not null, phone_third varchar(4) not null,email varchar(100) unique not null,forum_id bigint references forum(forum_id),primary key(email,forumid));
 
 pref_idは、prefテーブルのpref_idへの外部キーです。
 forum_idは、forumテーブルのforum_idへの外部キーです。
@@ -201,8 +201,7 @@ irforum=# \d iruser
  email          | character varying(100) | not null
  forum_id       | bigint                 | 
 Indexes:
-    "iruser_pkey" PRIMARY KEY, btree (user_id)
-    "u2" UNIQUE CONSTRAINT, btree (email)
+    "iruser_pkey" PRIMARY KEY, btree (email,forum_id)
 Foreign-key constraints:
     "iruser_forum_id_fkey" FOREIGN KEY (forum_id) REFERENCES forum(forum_id)
     "iruser_pref_id_fkey" FOREIGN KEY (pref_id) REFERENCES pref(pref_id)
