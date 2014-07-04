@@ -340,8 +340,6 @@ class PasswordController extends AbstractActionController
       if( $this->auth->hasIdentity() ){
         $this->auth->getStorage()->clear();
         $this->auth->clearIdentity();
-        $user_session->getManager()->getStorage()->clear('user');
-        //$admin_user_session->getManager()->getStorage()->clear('admin_user');
       }
       $url = "/irforum/application/password/login";
       return $this->redirect()->toUrl($url);
