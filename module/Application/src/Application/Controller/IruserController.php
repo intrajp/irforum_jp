@@ -97,66 +97,10 @@ class IruserController extends AbstractActionController
           ];
         }
 
-        $surName = new Input('surName');
-        $surName->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 20)))
-                 ->attach(new Validator\Regex(array('pattern' => '/^[ぁ-んァ-ヶー一-龠 　\r\n\t]+?$/')));
-        $firstName = new Input('firstName');
-        $firstName->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 20)))
-                 ->attach(new Validator\Regex(array('pattern' => '/^[ぁ-んァ-ヶー一-龠 　\r\n\t]+?$/')));
-        $surNameYomi = new Input('surNameYomi');
-        $surNameYomi->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 20)))
-                 ->attach(new Validator\Regex(array('pattern' => '/^([あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをんが>ぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽぁぃぅぇぉっゃゅょゎ・ー　])+?$/')));
-        $firstNameYomi = new Input('firstNameYomi');
-        $firstNameYomi->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 20)))
-                 ->attach(new Validator\Regex(array('pattern' => '/^([あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをんが>ぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽぁぃぅぇぉっゃゅょゎ・ー　])+?$/')));
-        $prefId = new Input('prefId');
-        $prefId->getValidatorChain()
-                 ->attach(new Validator\Between(array('min' => 1, 'max' => 47)));
-        $email = new Input('email');
-        $email->getValidatorChain()
-              ->attach(new Validator\EmailAddress());
-        $zipFirst = new Input('zipFirst');
-        $zipFirst->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 3, 'max' => 3)));
-        $zipLast = new Input('zipLast');
-        $zipLast->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 4, 'max' => 4)));
-        $city = new Input('city');
-        $city->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 20)))
-                 ->attach(new Validator\Regex(array('pattern' => '/^[0-9a-zA-Zぁ-んァ-ヶー一-龠 　\r\n\t]+?$/')));
-        $town = new Input('town');
-        $town->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 20)))
-                 ->attach(new Validator\Regex(array('pattern' => '/^[0-9a-zA-Zぁ-んァ-ヶー一-龠 　\r\n\t]+?$/')));
-        if($buildingPost !=""){       
-          $building = new Input('building');
-          $building->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 20)))
-                 ->attach(new Validator\Regex(array('pattern' => '/^[0-9a-zA-Zぁ-んァ-ヶー一-龠 　\r\n\t]+?$/')));
-        }
-        $phoneFirst = new Input('phoneFirst');
-        $phoneFirst->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 4)))
-                 ->attach(new Validator\Between(array('min' => 1, 'max' => 9999)));
-        $phoneSecond = new Input('phoneSecond');
-        $phoneSecond->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 2, 'max' => 4)))
-                 ->attach(new Validator\Between(array('min' => 1, 'max' => 9999)));
-        $phoneThird = new Input('phoneThird');
-        $phoneThird->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 2, 'max' => 4)))
-                 ->attach(new Validator\Between(array('min' => 1, 'max' => 9999)));
-        $forumId = new Input('forumId');
-        $forumId->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 2, 'max' => 19)))
-                 ->attach(new Validator\Between(array('min' => 1, 'max' => 9223372036854775807)));
+        //$inputFilter = new InputFilter();
+        $iruser_test = new Iruser();
+        $inputFilter = $iruser_test->getInputFilter();
 
-        $inputFilter = new InputFilter();
         if($buildingPost==""){
           $inputFilter->add($surName)
                       ->add($firstName)
@@ -192,7 +136,6 @@ class IruserController extends AbstractActionController
                       ->setData($data);
         }
         if($inputFilter->isValid()){
-          //echo "The form is valid\n";
           $iruser = new Iruser();
           $iruser->surname = $surNamePost;
           $iruser->firstname = $firstNamePost;
@@ -218,13 +161,6 @@ class IruserController extends AbstractActionController
           ));
         } else {
           throw new \Exception("The form is not valid");
-          /*
-          echo "The form is not valid\n";
-          echo "prefIdPost:".$prefIdPost."\n";
-          foreach ($inputFilter->getInvalidInput() as $error) {
-            print_r($error->getMessages());
-          }
-          */
           exit;
         }
       }
@@ -418,6 +354,7 @@ class IruserController extends AbstractActionController
         }
       }
     }
+    /*get IruserTable*/
     public function getIruserTable(){
       if(!$this->iruserTable){
         $sm = $this->getServiceLocator();

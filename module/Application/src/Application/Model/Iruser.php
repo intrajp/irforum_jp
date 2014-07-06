@@ -65,13 +65,13 @@ class Iruser implements InputFilterAwareInterface
   {
     throw new \Exception("Not used");
   }
-  /*unused*/
+  /*inputfileter*/
   public function getInputFilter()
   {
     if (!$this->inputFilter){
       $inputFilter = new InputFilter();
       $factory = new InputFactory();
-     
+      /*want to add between validator*/ 
       $inputFilter->add($factory->createInput(array(
           'name' => 'surName',
           'required' => true,
@@ -86,6 +86,7 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 1, 
                 'max' => 20, 
+                'pattern' => '/^[ぁ-んァ-ヶー一-龠 　\r\n\t]+?$/',
             ),  
           ),
         ),
@@ -104,6 +105,7 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 1, 
                 'max' => 20, 
+                'pattern' => '/^[ぁ-んァ-ヶー一-龠 　\r\n\t]+?$/',
             ),  
           ),
         ),
@@ -122,6 +124,7 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 1, 
                 'max' => 20, 
+                'pattern' => '/^([あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをんが>ぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽぁぃぅぇぉっゃゅょゎ・ー　])+?$/'
             ),  
           ),
         ),
@@ -140,6 +143,7 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 1, 
                 'max' => 20, 
+                'pattern' => '/^([あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをんが>ぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽぁぃぅぇぉっゃゅょゎ・ー　])+?$/'
             ),  
           ),
         ),
@@ -159,6 +163,7 @@ class Iruser implements InputFilterAwareInterface
                 'min' => 4, 
                 'max' => 40, 
             ),  
+            'pattern' => '/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/'
           ),
         ),
       )));
@@ -172,10 +177,11 @@ class Iruser implements InputFilterAwareInterface
           'validators' => array(
             array(
               'name' => 'StringLength',
-              'options' => array(
+              'options' => array( 
                 'encoding' => 'UTF-8', 
                 'min' => 3, 
                 'max' => 3, 
+                'pattern' => '/^([0-9])$/',
             ),  
           ),
         ),
@@ -194,6 +200,7 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 4, 
                 'max' => 4, 
+                'pattern' => '/^([0-9])$/',
             ),  
           ),
         ),
@@ -212,6 +219,7 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 1, 
                 'max' => 2, 
+                'pattern' => '/^([0-9])$/',
             ),  
           ),
         ),
@@ -230,6 +238,7 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 2, 
                 'max' => 30, 
+                'pattern' => '/^[ぁ-んァ-ヶー一-龠a-zA-Z0-9 　\r\n\t]+?$/',
             ),  
           ),
         ),
@@ -248,6 +257,7 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 2, 
                 'max' => 30, 
+                'pattern' => '/^[ぁ-んァ-ヶー一-龠a-zA-Z0-9 　\r\n\t]+?$/',
             ),  
           ),
         ),
@@ -266,6 +276,7 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 2, 
                 'max' => 30, 
+                'pattern' => '/^[ぁ-んァ-ヶー一-龠a-zA-Z0-9 　\r\n\t]+?$/',
             ),  
           ),
         ),
@@ -284,6 +295,7 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 1, 
                 'max' => 4, 
+                'pattern' => '/^([0-9])$/',
             ),  
           ),
         ),
@@ -302,6 +314,7 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 1, 
                 'max' => 4, 
+                'pattern' => '/^([0-9])$/',
             ),  
           ),
         ),
@@ -320,6 +333,26 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 1, 
                 'max' => 4, 
+                'pattern' => '/^([0-9])$/',
+            ),  
+          ),
+        ),
+      )));
+      $inputFilter->add($factory->createInput(array(
+          'name' => 'forumId',
+          'required' => true,
+          'filters' => array( 
+            array('name' => 'StripTags'),
+            array('name' => 'StringTrim'),
+          ),
+          'validators' => array(
+            array(
+              'name' => 'StringLength',
+              'options' => array(
+                'encoding' => 'UTF-8', 
+                'min' => 1, 
+                'max' => 19, 
+                'pattern' => '/^([0-9])$/',
             ),  
           ),
         ),
