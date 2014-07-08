@@ -14,6 +14,9 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
+use Zend\Validator\Regex;
+use Zend\Validator\Digits;
+use Zend\Validator\Between;
 
 class Iruser implements InputFilterAwareInterface
 {
@@ -71,9 +74,24 @@ class Iruser implements InputFilterAwareInterface
     if (!$this->inputFilter){
       $inputFilter = new InputFilter();
       $factory = new InputFactory();
-      /*want to add between validator*/ 
       $inputFilter->add($factory->createInput(array(
-          'name' => 'surName',
+          'name' => 'userIdFilter',
+          'required' => true,
+          'filters' => array( 
+            array('name' => 'Int'),
+          ),
+          'validators' => array(
+            array (
+              'name' => 'Between',
+              'options' => array (
+                'min' => 1,
+                'max' => 9223372036854775807,
+              ),
+            ),  
+          ),  
+      )));
+      $inputFilter->add($factory->createInput(array(
+          'name' => 'surNameFilter',
           'required' => true,
           'filters' => array( 
             array('name' => 'StripTags'),
@@ -86,13 +104,18 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 1, 
                 'max' => 20, 
+              ),  
+            ),  
+            array(
+              'name' => 'Regex',
+              'options' => array(
                 'pattern' => '/^[ぁ-んァ-ヶー一-龠 　\r\n\t]+?$/',
+              ),  
             ),  
           ),
-        ),
       )));
       $inputFilter->add($factory->createInput(array(
-          'name' => 'firstName',
+          'name' => 'firstNameFilter',
           'required' => true,
           'filters' => array( 
             array('name' => 'StripTags'),
@@ -105,13 +128,18 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 1, 
                 'max' => 20, 
+              ),  
+            ),
+            array(
+              'name' => 'Regex',
+              'options' => array(
                 'pattern' => '/^[ぁ-んァ-ヶー一-龠 　\r\n\t]+?$/',
+              ),  
             ),  
           ),
-        ),
       )));
       $inputFilter->add($factory->createInput(array(
-          'name' => 'surNameYomi',
+          'name' => 'surNameYomiFilter',
           'required' => true,
           'filters' => array( 
             array('name' => 'StripTags'),
@@ -124,13 +152,18 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 1, 
                 'max' => 20, 
+              ),  
+            ),
+            array(
+              'name' => 'Regex',
+              'options' => array(
                 'pattern' => '/^([あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをんが>ぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽぁぃぅぇぉっゃゅょゎ・ー　])+?$/'
+              ),  
             ),  
           ),
-        ),
       )));
       $inputFilter->add($factory->createInput(array(
-          'name' => 'firstNameYomi',
+          'name' => 'firstNameYomiFilter',
           'required' => true,
           'filters' => array( 
             array('name' => 'StripTags'),
@@ -143,13 +176,34 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 1, 
                 'max' => 20, 
+              ),  
+            ),
+            array(
+              'name' => 'Regex',
+              'options' => array(
                 'pattern' => '/^([あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをんが>ぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽぁぃぅぇぉっゃゅょゎ・ー　])+?$/'
+              ),  
             ),  
           ),
-        ),
       )));
       $inputFilter->add($factory->createInput(array(
-          'name' => 'email',
+          'name' => 'prefIdFilter',
+          'required' => true,
+          'filters' => array( 
+            array('name' => 'Int'),
+          ),
+          'validators' => array(
+            array (
+              'name' => 'Between',
+              'options' => array (
+                'min' => 1,
+                'max' => 47,
+              ),
+            ),  
+          ),  
+      )));
+      $inputFilter->add($factory->createInput(array(
+          'name' => 'emailFilter',
           'required' => true,
           'filters' => array( 
             array('name' => 'StripTags'),
@@ -162,51 +216,66 @@ class Iruser implements InputFilterAwareInterface
                 'encoding' => 'UTF-8', 
                 'min' => 4, 
                 'max' => 40, 
-            ),  
-            'pattern' => '/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/'
-          ),
-        ),
-      )));
-      $inputFilter->add($factory->createInput(array(
-          'name' => 'zipFirst',
-          'required' => true,
-          'filters' => array( 
-            array('name' => 'StripTags'),
-            array('name' => 'StringTrim'),
-          ),
-          'validators' => array(
+              ),  
+            ),
             array(
-              'name' => 'StringLength',
-              'options' => array( 
-                'encoding' => 'UTF-8', 
-                'min' => 3, 
-                'max' => 3, 
-                'pattern' => '/^([0-9])$/',
-            ),  
-          ),
-        ),
-      )));
-      $inputFilter->add($factory->createInput(array(
-          'name' => 'zipLast',
-          'required' => true,
-          'filters' => array( 
-            array('name' => 'StripTags'),
-            array('name' => 'StringTrim'),
-          ),
-          'validators' => array(
-            array(
-              'name' => 'StringLength',
+              'name' => 'Regex',
               'options' => array(
-                'encoding' => 'UTF-8', 
-                'min' => 4, 
-                'max' => 4, 
-                'pattern' => '/^([0-9])$/',
+                'pattern' => '/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/'
+              ),
             ),  
-          ),
-        ),
+          ),  
       )));
       $inputFilter->add($factory->createInput(array(
-          'name' => 'prefId',
+          'name' => 'zipFirstFilter',
+          'required' => true,
+          'filters' => array( 
+            array('name' => 'StripTags'),
+            array('name' => 'StringTrim'),
+          ),
+          'validators' => array(
+            array (
+              'name' => 'StringLength',
+              'options' => array (
+                'encoding' => 'UTF-8', 
+                'min' => 3,
+                'max' => 3,
+              ),
+            ),  
+            array(
+              'name' => 'Regex',
+              'options' => array(
+                'pattern' => '/^([0-9])+$/'
+              ),
+            ),  
+          ),  
+      )));
+      $inputFilter->add($factory->createInput(array(
+          'name' => 'zipLastFilter',
+          'required' => true,
+          'filters' => array( 
+            array('name' => 'StripTags'),
+            array('name' => 'StringTrim'),
+          ),
+          'validators' => array(
+            array (
+              'name' => 'StringLength',
+              'options' => array (
+                'encoding' => 'UTF-8', 
+                'min' => 4,
+                'max' => 4,
+              ),
+            ),  
+            array(
+              'name' => 'Regex',
+              'options' => array(
+                'pattern' => '/^([0-9])+$/'
+              ),
+            ),  
+          ),  
+      )));
+      $inputFilter->add($factory->createInput(array(
+          'name' => 'cityFilter',
           'required' => true,
           'filters' => array( 
             array('name' => 'StripTags'),
@@ -218,33 +287,19 @@ class Iruser implements InputFilterAwareInterface
               'options' => array(
                 'encoding' => 'UTF-8', 
                 'min' => 1, 
-                'max' => 2, 
-                'pattern' => '/^([0-9])$/',
-            ),  
-          ),
-        ),
-      )));
-      $inputFilter->add($factory->createInput(array(
-          'name' => 'city',
-          'required' => true,
-          'filters' => array( 
-            array('name' => 'StripTags'),
-            array('name' => 'StringTrim'),
-          ),
-          'validators' => array(
+                'max' => 20, 
+              ),  
+            ),
             array(
-              'name' => 'StringLength',
+              'name' => 'Regex',
               'options' => array(
-                'encoding' => 'UTF-8', 
-                'min' => 2, 
-                'max' => 30, 
                 'pattern' => '/^[ぁ-んァ-ヶー一-龠a-zA-Z0-9 　\r\n\t]+?$/',
+              ),  
             ),  
           ),
-        ),
       )));
       $inputFilter->add($factory->createInput(array(
-          'name' => 'town',
+          'name' => 'townFilter',
           'required' => true,
           'filters' => array( 
             array('name' => 'StripTags'),
@@ -255,16 +310,21 @@ class Iruser implements InputFilterAwareInterface
               'name' => 'StringLength',
               'options' => array(
                 'encoding' => 'UTF-8', 
-                'min' => 2, 
-                'max' => 30, 
+                'min' => 1, 
+                'max' => 20, 
+              ),  
+            ),
+            array(
+              'name' => 'Regex',
+              'options' => array(
                 'pattern' => '/^[ぁ-んァ-ヶー一-龠a-zA-Z0-9 　\r\n\t]+?$/',
+              ),  
             ),  
           ),
-        ),
       )));
       $inputFilter->add($factory->createInput(array(
-          'name' => 'building',
-          'required' => false,
+          'name' => 'buildingFilter',
+          'required' => true,
           'filters' => array( 
             array('name' => 'StripTags'),
             array('name' => 'StringTrim'),
@@ -274,88 +334,105 @@ class Iruser implements InputFilterAwareInterface
               'name' => 'StringLength',
               'options' => array(
                 'encoding' => 'UTF-8', 
-                'min' => 2, 
-                'max' => 30, 
+                'min' => 1, 
+                'max' => 20, 
+              ),  
+            ),
+            array(
+              'name' => 'Regex',
+              'options' => array(
                 'pattern' => '/^[ぁ-んァ-ヶー一-龠a-zA-Z0-9 　\r\n\t]+?$/',
+              ),  
             ),  
           ),
-        ),
       )));
       $inputFilter->add($factory->createInput(array(
-          'name' => 'phoneFirst',
+          'name' => 'phoneFirstFilter',
           'required' => true,
           'filters' => array( 
             array('name' => 'StripTags'),
             array('name' => 'StringTrim'),
           ),
           'validators' => array(
-            array(
+            array (
               'name' => 'StringLength',
-              'options' => array(
+              'options' => array (
                 'encoding' => 'UTF-8', 
-                'min' => 1, 
-                'max' => 4, 
-                'pattern' => '/^([0-9])$/',
+                'min' => 1,
+                'max' => 4,
+              ),
             ),  
-          ),
-        ),
+            array(
+              'name' => 'Regex',
+              'options' => array(
+                'pattern' => '/^([0-9])+$/'
+              ),
+            ),  
+          ),  
       )));
       $inputFilter->add($factory->createInput(array(
-          'name' => 'phoneSecond',
+          'name' => 'phoneSecondFilter',
           'required' => true,
           'filters' => array( 
             array('name' => 'StripTags'),
             array('name' => 'StringTrim'),
           ),
           'validators' => array(
-            array(
+            array (
               'name' => 'StringLength',
-              'options' => array(
+              'options' => array (
                 'encoding' => 'UTF-8', 
-                'min' => 1, 
-                'max' => 4, 
-                'pattern' => '/^([0-9])$/',
+                'min' => 1,
+                'max' => 4,
+              ),
             ),  
-          ),
-        ),
+            array(
+              'name' => 'Regex',
+              'options' => array(
+                'pattern' => '/^([0-9])+$/'
+              ),
+            ),  
+          ),  
       )));
       $inputFilter->add($factory->createInput(array(
-          'name' => 'phoneThird',
+          'name' => 'phoneThirdFilter',
           'required' => true,
           'filters' => array( 
             array('name' => 'StripTags'),
             array('name' => 'StringTrim'),
           ),
           'validators' => array(
-            array(
+            array (
               'name' => 'StringLength',
-              'options' => array(
+              'options' => array (
                 'encoding' => 'UTF-8', 
-                'min' => 1, 
-                'max' => 4, 
-                'pattern' => '/^([0-9])$/',
+                'min' => 1,
+                'max' => 4,
+              ),
             ),  
-          ),
-        ),
+            array(
+              'name' => 'Regex',
+              'options' => array(
+                'pattern' => '/^([0-9])+$/'
+              ),
+            ),  
+          ),  
       )));
       $inputFilter->add($factory->createInput(array(
-          'name' => 'forumId',
+          'name' => 'forumIdFilter',
           'required' => true,
           'filters' => array( 
-            array('name' => 'StripTags'),
-            array('name' => 'StringTrim'),
+            array('name' => 'Int'),
           ),
           'validators' => array(
-            array(
-              'name' => 'StringLength',
-              'options' => array(
-                'encoding' => 'UTF-8', 
-                'min' => 1, 
-                'max' => 19, 
-                'pattern' => '/^([0-9])$/',
+            array (
+              'name' => 'Between',
+              'options' => array (
+                'min' => 1,
+                'max' => 9223372036854775807,
+              ),
             ),  
-          ),
-        ),
+          ),  
       )));
       $this->inputFilter = $inputFilter;
     }

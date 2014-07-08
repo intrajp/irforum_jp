@@ -90,6 +90,14 @@ class IruserForm extends Form
       ),
     ));
     $this->add(array(
+      'name' => 'prefId',
+      'type' => 'Zend\Form\Element\Select',
+      'attributes' => array(
+        'id' => 'prefSelection',
+        'class' => 'prefSelection',
+      ),
+    ));
+    $this->add(array(
       'name' => 'email',
       'attributes' => array(
         'type' => 'Zend\Form\Element\Email',
@@ -118,14 +126,6 @@ class IruserForm extends Form
         'size' => '4',
         'id' => 'zipLast',
         'class' => 'zipLast',
-      ),
-    ));
-    $this->add(array(
-      'name' => 'prefId',
-      'type' => 'Zend\Form\Element\Select',
-      'attributes' => array(
-        'id' => 'prefSelection',
-        'class' => 'prefSelection',
       ),
     ));
     $this->add(array(

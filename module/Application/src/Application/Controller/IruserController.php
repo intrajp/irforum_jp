@@ -60,82 +60,34 @@ class IruserController extends AbstractActionController
         $phoneSecondPost = $this->params()->fromPost('phoneSecond', null );
         $phoneThirdPost = $this->params()->fromPost('phoneThird', null );
         $forumIdPost = $this->params()->fromPost('forumId', null );
-        if($buildingPost==""){
-          $data = [
-            "surName" => $surNamePost,
-            "firstName" => $firstNamePost,
-            "surNameYomi" => $surNameYomiPost,
-            "firstNameYomi" => $firstNameYomiPost,
-            "prefId" => $prefIdPost,
-            "email" => $emailPost,
-            "zipFirst" => $zipFirstPost,
-            "zipLast" => $zipLastPost,
-            "city" => $cityPost,
-            "town" => $townPost,
-            "phoneFirst" => $phoneFirstPost,
-            "phoneSecond" => $phoneSecondPost,
-            "phoneThird" => $phoneThirdPost,
-            "forumId" => $forumIdPost,
-          ];
-        }else{
-          $data = [
-            "surName" => $surNamePost,
-            "firstName" => $firstNamePost,
-            "surNameYomi" => $surNameYomiPost,
-            "firstNameYomi" => $firstNameYomiPost,
-            "prefId" => $prefIdPost,
-            "email" => $emailPost,
-            "zipFirst" => $zipFirstPost,
-            "zipLast" => $zipLastPost,
-            "city" => $cityPost,
-            "town" => $townPost,
-            "building" => $buildingPost,
-            "phoneFirst" => $phoneFirstPost,
-            "phoneSecond" => $phoneSecondPost,
-            "phoneThird" => $phoneThirdPost,
-            "forumId" => $forumIdPost,
-          ];
-        }
 
-        //$inputFilter = new InputFilter();
         $iruser_test = new Iruser();
-        $inputFilter = $iruser_test->getInputFilter();
+        $form->setInputFilter($iruser_test->getInputFilter());
 
-        if($buildingPost==""){
-          $inputFilter->add($surName)
-                      ->add($firstName)
-                      ->add($surNameYomi)
-                      ->add($firstNameYomi)
-                      ->add($prefId)
-                      ->add($email)
-                      ->add($zipFirst)
-                      ->add($zipLast)
-                      ->add($city)
-                      ->add($town)
-                      ->add($phoneFirst)
-                      ->add($phoneSecond)
-                      ->add($phoneThird)
-                      ->add($forumId)
-                      ->setData($data);
+        $data = [
+          "surNameFilter" => $surNamePost,
+          "firstNameFilter" => $firstNamePost,
+          "surNameYomiFilter" => $surNameYomiPost,
+          "firstNameYomiFilter" => $firstNameYomiPost,
+          "prefIdFilter" => $prefIdPost,
+          "emailFilter" => $emailPost,
+          "zipFirstFilter" => $zipFirstPost,
+          "zipLastFilter" => $zipLastPost,
+          "cityFilter" => $cityPost,
+          "townFilter" => $townPost,
+          "buildingFilter" => $buildingPost,
+          "phoneFirstFilter" => $phoneFirstPost,
+          "phoneSecondFilter" => $phoneSecondPost,
+          "phoneThirdFilter" => $phoneThirdPost,
+          "forumIdFilter" => $forumIdPost,
+        ];
+        if($buildingPost == ""){
+          $form->setValidationGroup('surNameFilter','firstNameFilter','surNameYomiFilter','firstNameYomiFilter','prefIdFilter','emailFilter','zipFirstFilter','zipLastFilter','cityFilter','townFilter','phoneFirstFilter','phoneSecondFilter','phoneThirdFilter','forumIdFilter');
         }else{
-          $inputFilter->add($surName)
-                      ->add($firstName)
-                      ->add($surNameYomi)
-                      ->add($firstNameYomi)
-                      ->add($prefId)
-                      ->add($email)
-                      ->add($zipFirst)
-                      ->add($zipLast)
-                      ->add($city)
-                      ->add($town)
-                      ->add($building)
-                      ->add($phoneFirst)
-                      ->add($phoneSecond)
-                      ->add($phoneThird)
-                      ->add($forumId)
-                      ->setData($data);
+          $form->setValidationGroup('surNameFilter','firstNameFilter','surNameYomiFilter','firstNameYomiFilter','prefIdFilter','emailFilter','zipFirstFilter','zipLastFilter','cityFilter','townFilter','buildingFilter','phoneFirstFilter','phoneSecondFilter','phoneThirdFilter','forumIdFilter');
         }
-        if($inputFilter->isValid()){
+        $form->setData($data);
+        if($form->isValid()){
           $iruser = new Iruser();
           $iruser->surname = $surNamePost;
           $iruser->firstname = $firstNamePost;
@@ -188,136 +140,35 @@ class IruserController extends AbstractActionController
         $phoneFirstPost = $this->params()->fromPost('phoneFirst', null );
         $phoneSecondPost = $this->params()->fromPost('phoneSecond', null );
         $phoneThirdPost = $this->params()->fromPost('phoneThird', null );
-        if($buildingPost==""){
-          $data = [
-            "userIdPost" => $userIdPost,
-            "surName" => $surNamePost,
-            "firstName" => $firstNamePost,
-            "surNameYomi" => $surNameYomiPost,
-            "firstNameYomi" => $firstNameYomiPost,
-            "prefId" => $prefIdPost,
-            "email" => $emailPost,
-            "zipFirst" => $zipFirstPost,
-            "zipLast" => $zipLastPost,
-            "city" => $cityPost,
-            "town" => $townPost,
-            "phoneFirst" => $phoneFirstPost,
-            "phoneSecond" => $phoneSecondPost,
-            "phoneThird" => $phoneThirdPost,
-          ];
+
+        $iruser_test = new Iruser();
+        $form->setInputFilter($iruser_test->getInputFilter());
+
+        $data = [
+          "userIdFilter" => $userIdPost,
+          "surNameFilter" => $surNamePost,
+          "firstNameFilter" => $firstNamePost,
+          "surNameYomiFilter" => $surNameYomiPost,
+          "firstNameYomiFilter" => $firstNameYomiPost,
+          "prefIdFilter" => $prefIdPost,
+          "emailFilter" => $emailPost,
+          "zipFirstFilter" => $zipFirstPost,
+          "zipLastFilter" => $zipLastPost,
+          "cityFilter" => $cityPost,
+          "townFilter" => $townPost,
+          "buildingFilter" => $buildingPost,
+          "phoneFirstFilter" => $phoneFirstPost,
+          "phoneSecondFilter" => $phoneSecondPost,
+          "phoneThirdFilter" => $phoneThirdPost,
+        ];
+        if($buildingPost == ""){
+          $form->setValidationGroup('userIdFilter','surNameFilter','firstNameFilter','surNameYomiFilter','firstNameYomiFilter','prefIdFilter','emailFilter','zipFirstFilter','zipLastFilter','cityFilter','townFilter','phoneFirstFilter','phoneSecondFilter','phoneThirdFilter','forumIdFilter');
         }else{
-          $data = [
-            "userIdPost" => $userIdPost,
-            "surName" => $surNamePost,
-            "firstName" => $firstNamePost,
-            "surNameYomi" => $surNameYomiPost,
-            "firstNameYomi" => $firstNameYomiPost,
-            "prefId" => $prefIdPost,
-            "email" => $emailPost,
-            "zipFirst" => $zipFirstPost,
-            "zipLast" => $zipLastPost,
-            "city" => $cityPost,
-            "town" => $townPost,
-            "building" => $buildingPost,
-            "phoneFirst" => $phoneFirstPost,
-            "phoneSecond" => $phoneSecondPost,
-            "phoneThird" => $phoneThirdPost,
-          ];
+          $form->setValidationGroup('userIdFilter','surNameFilter','firstNameFilter','surNameYomiFilter','firstNameYomiFilter','prefIdFilter','emailFilter','zipFirstFilter','zipLastFilter','cityFilter','townFilter','buildingFilter','phoneFirstFilter','phoneSecondFilter','phoneThirdFilter','forumIdFilter');
         }
-        $userId = new Input('userId');
-        $userId->getValidatorChain()
-                 ->attach(new Validator\Between(array('min' => 1, 'max' => 9223372036854775807)));
-        $surName = new Input('surName');
-        $surName->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 20)))
-                 ->attach(new Validator\Regex(array('pattern' => '/^[ぁ-んァ-ヶー一-龠 　\r\n\t]+?$/')));
-        $firstName = new Input('firstName');
-        $firstName->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 20)))
-                 ->attach(new Validator\Regex(array('pattern' => '/^[ぁ-んァ-ヶー一-龠 　\r\n\t]+?$/')));
-        $surNameYomi = new Input('surNameYomi');
-        $surNameYomi->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 20)))
-                 ->attach(new Validator\Regex(array('pattern' => '/^([あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをんが>ぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽぁぃぅぇぉっゃゅょゎ・ー　])+?$/')));
-        $firstNameYomi = new Input('firstNameYomi');
-        $firstNameYomi->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 20)))
-                 ->attach(new Validator\Regex(array('pattern' => '/^([あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをんが>ぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽぁぃぅぇぉっゃゅょゎ・ー　])+?$/')));
-        $prefId = new Input('prefId');
-        $prefId->getValidatorChain()
-                 ->attach(new Validator\Between(array('min' => 1, 'max' => 47)));
-        $email = new Input('email');
-        $email->getValidatorChain()
-              ->attach(new Validator\EmailAddress());
-        $zipFirst = new Input('zipFirst');
-        $zipFirst->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 3, 'max' => 3)));
-        $zipLast = new Input('zipLast');
-        $zipLast->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 4, 'max' => 4)));
-        $city = new Input('city');
-        $city->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 20)))
-                 ->attach(new Validator\Regex(array('pattern' => '/^[0-9a-zA-Zぁ-んァ-ヶー一-龠 　\r\n\t]+?$/')));
-        $town = new Input('town');
-        $town->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 20)))
-                 ->attach(new Validator\Regex(array('pattern' => '/^[0-9a-zA-Zぁ-んァ-ヶー一-龠 　\r\n\t]+?$/')));
-        if($buildingPost !=""){       
-          $building = new Input('building');
-          $building->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 20)))
-                 ->attach(new Validator\Regex(array('pattern' => '/^[0-9a-zA-Zぁ-んァ-ヶー一-龠 　\r\n\t]+?$/')));
-        }
-        $phoneFirst = new Input('phoneFirst');
-        $phoneFirst->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 1, 'max' => 4)))
-                 ->attach(new Validator\Between(array('min' => 1, 'max' => 9999)));
-        $phoneSecond = new Input('phoneSecond');
-        $phoneSecond->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 2, 'max' => 4)))
-                 ->attach(new Validator\Between(array('min' => 1, 'max' => 9999)));
-        $phoneThird = new Input('phoneThird');
-        $phoneThird->getValidatorChain()
-                 ->attach(new Validator\StringLength(array('min' => 2, 'max' => 4)))
-                 ->attach(new Validator\Between(array('min' => 1, 'max' => 9999)));
-        $inputFilter = new InputFilter();
-        if($buildingPost==""){
-          $inputFilter->add($userId)
-                      ->add($surName)
-                      ->add($firstName)
-                      ->add($surNameYomi)
-                      ->add($firstNameYomi)
-                      ->add($prefId)
-                      ->add($email)
-                      ->add($zipFirst)
-                      ->add($zipLast)
-                      ->add($city)
-                      ->add($town)
-                      ->add($phoneFirst)
-                      ->add($phoneSecond)
-                      ->add($phoneThird)
-                      ->setData($data);
-        }else{
-          $inputFilter->add($userId)
-                      ->add($surName)
-                      ->add($firstName)
-                      ->add($surNameYomi)
-                      ->add($firstNameYomi)
-                      ->add($prefId)
-                      ->add($email)
-                      ->add($zipFirst)
-                      ->add($zipLast)
-                      ->add($city)
-                      ->add($town)
-                      ->add($building)
-                      ->add($phoneFirst)
-                      ->add($phoneSecond)
-                      ->add($phoneThird)
-                      ->setData($data);
-        }
-        if($inputFilter->isValid()){
-          //echo "The form is valid\n";
+        $form->setData($data);
+
+        if($form->isValid()){
           $iruser = new Iruser();
           $iruser->user_id = $userIdPost;
           $iruser->surname = $surNamePost;
@@ -343,13 +194,6 @@ class IruserController extends AbstractActionController
           ));
         } else {
           throw new \Exception("The form is not valid");
-          /*
-          echo "The form is not valid\n";
-          echo "prefIdPost:".$prefIdPost."\n";
-          foreach ($inputFilter->getInvalidInput() as $error) {
-            print_r($error->getMessages());
-          }
-          */
           exit;
         }
       }

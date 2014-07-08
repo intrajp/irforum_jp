@@ -1,3 +1,12 @@
+20140708 irforum-3.04 
+  IruserコントローラのaddAction修正およびModel/Iruser.phpの修正(Validatorの記述等)
+  Passwordコントローラの修正-Iruser のupdateのValidator関連
+20140707 irforum-3.03 
+  IruserコントローラのaddAction修正およびModel/Iruser.phpの修正-inputFilter関連
+20140703 irforum-3.02 
+  Passwordコントローラのバグ修正-logout Action
+20140630 irforum-3.01 
+  iruserテーブルの修正
 20140627 irforum-3.0 
   フォーラム毎にユーザ登録を確認できるようにした。
 20140624 irforum-2.991 

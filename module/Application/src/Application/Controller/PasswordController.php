@@ -17,6 +17,7 @@ use Application\Model\Auth as Auth;
 use Application\Model\Forum;
 use Application\Model\Iruser;
 use Application\Model\Password;
+use Application\Form\IruserForm;
 use Application\Form\ForumForm;
 use Application\Form\ForumUpdateForm;
 use Application\Form\IruserEditForm;
@@ -283,48 +284,81 @@ class PasswordController extends AbstractActionController
     public function updateAction()
     {
       if( $this->auth->hasIdentity() ){
-        $userIdPost = $this->params()->fromPost('userId', null );
-        $surNamePost = $this->params()->fromPost('surName', null );
-        $firstNamePost = $this->params()->fromPost('firstName', null );
-        $surNameYomiPost = $this->params()->fromPost('surNameYomi', null );
-        $firstNameYomiPost = $this->params()->fromPost('firstNameYomi', null );
-        $emailPost = $this->params()->fromPost('email', null );
-        $zipFirstPost = $this->params()->fromPost('zipFirst', null );
-        $zipLastPost = $this->params()->fromPost('zipLast', null );
-        $prefIdPost = $this->params()->fromPost('prefId', null );
-        $cityPost = $this->params()->fromPost('city', null );
-        $townPost = $this->params()->fromPost('town', null );
-        $buildingPost = $this->params()->fromPost('building', null );
-        $phoneFirstPost = $this->params()->fromPost('phoneFirst', null );
-        $phoneSecondPost = $this->params()->fromPost('phoneSecond', null );
-        $phoneThirdPost = $this->params()->fromPost('phoneThird', null );
+        $form = new IruserEditForm();    
+        $request = $this->getRequest();
+        if($request->isPost()){ 
 
-        if(( $userIdPost !="" )&&( $surNamePost !="" )&&( $firstNamePost !="" )&&( $surNameYomiPost !="" )&&( $firstNameYomiPost !="" )
-          &&( $emailPost !="" )&&( $zipFirstPost !="" )&&( $zipLastPost !="" )&&( $prefIdPost !="" )&&( $cityPost !="" )&&( $townPost !="")
-          &&( $phoneFirstPost !="" )&&( $phoneSecondPost !="" )&&( $phoneThirdPost !="" ) ){
-          //send iruser update userdata
-          $user_update_session = new Container('user_update');
-          $user_update_session->userId = $userIdPost;
-          $user_update_session->surName = $surNamePost;
-          $user_update_session->firstName = $firstNamePost;
-          $user_update_session->surNameYomi = $surNameYomiPost;
-          $user_update_session->firstNameYomi = $firstNameYomiPost;
-          $user_update_session->email = $emailPost;
-          $user_update_session->zipFirst = $zipFirstPost;
-          $user_update_session->zipLast = $zipLastPost;
-          $user_update_session->prefId = $prefIdPost;
-          $user_update_session->city = $cityPost;
-          $user_update_session->town = $townPost;
-          $user_update_session->building = $buildingPost;
-          $user_update_session->phoneFirst = $phoneFirstPost;
-          $user_update_session->phoneSecond = $phoneSecondPost;
-          $user_update_session->phoneThird = $phoneThirdPost;
-          //commooonn!!
-          $this->getIruserTable()->updateIruser($user_update_session);
-          return $this->redirect()->toRoute('application', array(
-            'controller' => 'password',
-            'action' => 'index'
-          ));
+          $userIdPost = $this->params()->fromPost('userId', null );
+          $surNamePost = $this->params()->fromPost('surName', null );
+          $firstNamePost = $this->params()->fromPost('firstName', null );
+          $surNameYomiPost = $this->params()->fromPost('surNameYomi', null );
+          $firstNameYomiPost = $this->params()->fromPost('firstNameYomi', null );
+          $emailPost = $this->params()->fromPost('email', null );
+          $zipFirstPost = $this->params()->fromPost('zipFirst', null );
+          $zipLastPost = $this->params()->fromPost('zipLast', null );
+          $prefIdPost = $this->params()->fromPost('prefId', null );
+          $cityPost = $this->params()->fromPost('city', null );
+          $townPost = $this->params()->fromPost('town', null );
+          $buildingPost = $this->params()->fromPost('building', null );
+          $phoneFirstPost = $this->params()->fromPost('phoneFirst', null );
+          $phoneSecondPost = $this->params()->fromPost('phoneSecond', null );
+          $phoneThirdPost = $this->params()->fromPost('phoneThird', null );
+
+          $iruser_test = new Iruser();
+          $form->setInputFilter($iruser_test->getInputFilter());
+
+          $data = [
+            "userIdFilter" => $userIdPost,
+            "surNameFilter" => $surNamePost,
+            "firstNameFilter" => $firstNamePost,
+            "surNameYomiFilter" => $surNameYomiPost,
+            "firstNameYomiFilter" => $firstNameYomiPost,
+            "prefIdFilter" => $prefIdPost,
+            "emailFilter" => $emailPost,
+            "zipFirstFilter" => $zipFirstPost,
+            "zipLastFilter" => $zipLastPost,
+            "cityFilter" => $cityPost,
+            "townFilter" => $townPost,
+            "buildingFilter" => $buildingPost,
+            "phoneFirstFilter" => $phoneFirstPost,
+            "phoneSecondFilter" => $phoneSecondPost,
+            "phoneThirdFilter" => $phoneThirdPost,
+          ];
+          if($buildingPost == ""){
+            $form->setValidationGroup('userIdFilter','surNameFilter','firstNameFilter','surNameYomiFilter','firstNameYomiFilter','prefIdFilter','emailFilter','zipFirstFilter','zipLastFilter','cityFilter','townFilter','phoneFirstFilter','phoneSecondFilter','phoneThirdFilter');
+          }else{
+            $form->setValidationGroup('userIdFilter','surNameFilter','firstNameFilter','surNameYomiFilter','firstNameYomiFilter','prefIdFilter','emailFilter','zipFirstFilter','zipLastFilter','cityFilter','townFilter','buildingFilter','phoneFirstFilter','phoneSecondFilter','phoneThirdFilter');
+          }
+          $form->setData($data);
+
+          if($form->isValid()){
+            //send iruser update userdata
+            $user_update_session = new Container('user_update');
+            $user_update_session->userId = $userIdPost;
+            $user_update_session->surName = $surNamePost;
+            $user_update_session->firstName = $firstNamePost;
+            $user_update_session->surNameYomi = $surNameYomiPost;
+            $user_update_session->firstNameYomi = $firstNameYomiPost;
+            $user_update_session->email = $emailPost;
+            $user_update_session->zipFirst = $zipFirstPost;
+            $user_update_session->zipLast = $zipLastPost;
+            $user_update_session->prefId = $prefIdPost;
+            $user_update_session->city = $cityPost;
+            $user_update_session->town = $townPost;
+            $user_update_session->building = $buildingPost;
+            $user_update_session->phoneFirst = $phoneFirstPost;
+            $user_update_session->phoneSecond = $phoneSecondPost;
+            $user_update_session->phoneThird = $phoneThirdPost;
+            //commooonn!!
+            $this->getIruserTable()->updateIruser($user_update_session);
+            return $this->redirect()->toRoute('application', array(
+              'controller' => 'password',
+              'action' => 'index'
+            ));
+          }else{
+            throw new \Exception("The form is not valid");
+            exit;
+          }
         }else{
           $user_update_session->getManager()->getStorage()->clear('user_update');
           return $this->redirect()->toRoute('application', array(

@@ -2,10 +2,10 @@
   <?php foreach ($pref as $list) : ?>
   <?php
     if($i==0){
-      echo "<option value=\"\" selected>--都道府県を選んで下さい--</option>";
+      echo "<option value=0 selected>--都道府県を選んで下さい--</option>";
     }
    ?>
-  <option value="<?php echo $this->escapeHtml($list->pref_id); ?>">
+  <option value=<?php echo $this->escapeHtml($list->pref_id); ?>>
   <?php echo $this->escapeHtml($list->pref_name_kanji); ?>
   </option>
   <?php $i++; ?>
