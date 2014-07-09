@@ -1,3 +1,7 @@
+20140709 irforum-3.05 
+  Iruserコントローラから、updateアクションを削除
+  config/module.config.phpの修正
+  .htaccessによるリライトの再同梱
 20140708 irforum-3.04 
   IruserコントローラのaddAction修正およびModel/Iruser.phpの修正(Validatorの記述等)
   Passwordコントローラの修正-Iruser のupdateのValidator関連

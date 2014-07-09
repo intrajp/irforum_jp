@@ -23,9 +23,8 @@ class IrmailController extends AbstractActionController
       $surName = $this->params()->fromPost('surName', 0 );
       $firstName = $this->params()->fromPost('firstName', 0 );
       $recipient = $surName . " " . $firstName;
-
       $message = new Message();
-      $message->addFrom('irforum2014-test@irforum2014-test.com','irforum2914-test')
+      $message->addFrom('irforum-test-2014@irforum.org','irforum-test')
               ->setBody('御登録ありがとうございました!')
               ->addTo("$email","$recipient")
               ->setSubject('irforumからの登録完了メール');

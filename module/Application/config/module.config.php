@@ -122,7 +122,6 @@ return array(
             'application/irmail/index' => __DIR__ . '/../view/application/iruser/index.phtml',
             'application/iruser/index' => __DIR__ . '/../view/application/iruser/index.phtml',
             'application/iruser/add' => __DIR__ . '/../view/application/iruser/index.phtml',
-            'application/iruser/update' => __DIR__ . '/../view/application/iruser/update.phtml',
             'application/list/index' => __DIR__ . '/../view/application/list/index.phtml',
             'application/password/add' => __DIR__ . '/../view/application/password/add.phtml',
             'application/password/addforum' => __DIR__ . '/../view/application/password/addforum.phtml',

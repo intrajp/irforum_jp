@@ -83,7 +83,7 @@ class IruserController extends AbstractActionController
         ];
         if($buildingPost == ""){
           $form->setValidationGroup('surNameFilter','firstNameFilter','surNameYomiFilter','firstNameYomiFilter','prefIdFilter','emailFilter','zipFirstFilter','zipLastFilter','cityFilter','townFilter','phoneFirstFilter','phoneSecondFilter','phoneThirdFilter','forumIdFilter');
-        }else{
+        } else {
           $form->setValidationGroup('surNameFilter','firstNameFilter','surNameYomiFilter','firstNameYomiFilter','prefIdFilter','emailFilter','zipFirstFilter','zipLastFilter','cityFilter','townFilter','buildingFilter','phoneFirstFilter','phoneSecondFilter','phoneThirdFilter','forumIdFilter');
         }
         $form->setData($data);
@@ -109,87 +109,6 @@ class IruserController extends AbstractActionController
 
           return $this->redirect()->toRoute('application', array(
             'controller' => 'index',
-            'action' => 'index'
-          ));
-        } else {
-          throw new \Exception("The form is not valid");
-          exit;
-        }
-      }
-    }
-    /*calling update function of IruserTable Model*/
-    public function updateAction()
-    {
-      $userIdSession = $user_update_session->userId;
-
-      $form = new IruserEditForm();    
-      $request = $this->getRequest();
-      if($request->isPost()){ 
-        $userIdPost = $this->params()->fromPost('userId', null );
-        $surNamePost = $this->params()->fromPost('surName', null );
-        $firstNamePost = $this->params()->fromPost('firstName', null );
-        $surNameYomiPost = $this->params()->fromPost('surNameYomi', null );
-        $firstNameYomiPost = $this->params()->fromPost('firstNameYomi', null );
-        $prefIdPost = $this->params()->fromPost('prefId', null );
-        $emailPost = $this->params()->fromPost('email', null );
-        $zipFirstPost = $this->params()->fromPost('zipFirst', null );
-        $zipLastPost = $this->params()->fromPost('zipLast', null );
-        $cityPost = $this->params()->fromPost('city', null );
-        $townPost = $this->params()->fromPost('town', null );
-        $buildingPost = $this->params()->fromPost('building', null );
-        $phoneFirstPost = $this->params()->fromPost('phoneFirst', null );
-        $phoneSecondPost = $this->params()->fromPost('phoneSecond', null );
-        $phoneThirdPost = $this->params()->fromPost('phoneThird', null );
-
-        $iruser_test = new Iruser();
-        $form->setInputFilter($iruser_test->getInputFilter());
-
-        $data = [
-          "userIdFilter" => $userIdPost,
-          "surNameFilter" => $surNamePost,
-          "firstNameFilter" => $firstNamePost,
-          "surNameYomiFilter" => $surNameYomiPost,
-          "firstNameYomiFilter" => $firstNameYomiPost,
-          "prefIdFilter" => $prefIdPost,
-          "emailFilter" => $emailPost,
-          "zipFirstFilter" => $zipFirstPost,
-          "zipLastFilter" => $zipLastPost,
-          "cityFilter" => $cityPost,
-          "townFilter" => $townPost,
-          "buildingFilter" => $buildingPost,
-          "phoneFirstFilter" => $phoneFirstPost,
-          "phoneSecondFilter" => $phoneSecondPost,
-          "phoneThirdFilter" => $phoneThirdPost,
-        ];
-        if($buildingPost == ""){
-          $form->setValidationGroup('userIdFilter','surNameFilter','firstNameFilter','surNameYomiFilter','firstNameYomiFilter','prefIdFilter','emailFilter','zipFirstFilter','zipLastFilter','cityFilter','townFilter','phoneFirstFilter','phoneSecondFilter','phoneThirdFilter','forumIdFilter');
-        }else{
-          $form->setValidationGroup('userIdFilter','surNameFilter','firstNameFilter','surNameYomiFilter','firstNameYomiFilter','prefIdFilter','emailFilter','zipFirstFilter','zipLastFilter','cityFilter','townFilter','buildingFilter','phoneFirstFilter','phoneSecondFilter','phoneThirdFilter','forumIdFilter');
-        }
-        $form->setData($data);
-
-        if($form->isValid()){
-          $iruser = new Iruser();
-          $iruser->user_id = $userIdPost;
-          $iruser->surname = $surNamePost;
-          $iruser->firstname = $firstNamePost;
-          $iruser->surname_yomi = $surNameYomiPost;
-          $iruser->firstname_yomi = $firstNameYomiPost;
-          $iruser->pref_id = $prefIdPost;
-          $iruser->email = $emailPost;
-          $iruser->zip_first = $zipFirstPost;
-          $iruser->zip_last = $zipLastPost;
-          $iruser->city = $cityPost;
-          $iruser->town = $townPost;
-          $iruser->building = $buildingPost;
-          $iruser->phone_first = $phoneFirstPost;
-          $iruser->phone_second = $phoneSecondPost;
-          $iruser->phone_third = $phoneThirdPost;
- 
-          $this->getIruserTable()->updateIruser( $iruser ,array('user_id'=>$iruser->user_id));
-
-          return $this->redirect()->toRoute('application', array(
-            'controller' => 'password',
             'action' => 'index'
           ));
         } else {
