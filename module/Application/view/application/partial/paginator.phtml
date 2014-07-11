@@ -1,7 +1,6 @@
 <?php if ($this->pageCount): ?>
   <div class="pagination pagination-centered">
     <ul>
-
       <!-- First page link -->
         <?php if (isset($this->first)): ?>
           <a href="<?php echo $this->url($this->route2); ?>?page=<?php echo $this->first; ?>">
@@ -52,7 +51,8 @@
 
       <!-- Last page link -->
         <?php if (isset($this->last)): ?>
-          <a href="<?php echo $this->url($this->route2); ?>?page=<?php echo $this->last; ?>">
+          <!--<a href="<?php echo $this->url($this->route2); ?>?page=<?php echo $this->last; ?>">-->
+          <a href="?page=<?php echo $this->last; ?>">
             最後 
           </a>
         <?php else: ?>

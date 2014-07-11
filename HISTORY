@@ -1,3 +1,5 @@
+20140711 irforum-3.06 
+  paginator関連のバグを修正
 20140709 irforum-3.05 
   Iruserコントローラから、updateアクションを削除
   config/module.config.phpの修正

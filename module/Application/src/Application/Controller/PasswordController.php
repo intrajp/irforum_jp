@@ -57,6 +57,7 @@ class PasswordController extends AbstractActionController
       $pageNo="";
       $pagePost="";
       $user_session = new Container('user');
+      $forum_session = new Container('forum');
 
       if($this->params()->fromQuery('page')){
         $pagePost = $this->params()->fromQuery('page', '' );
@@ -64,7 +65,7 @@ class PasswordController extends AbstractActionController
 
       if($this->params()->fromQuery('forumId')){
         $forumIdPost = $this->params()->fromQuery('forumId', null );
-        $user_session->forumId = $forumIdPost;
+        $forum_session->forumId = $forumIdPost;
       }
 
       if($this->params()->fromPost('surNameYomi')){
@@ -122,13 +123,13 @@ class PasswordController extends AbstractActionController
       $request = $this->getRequest();
       $data = $request->getPost();
 
-      //$paginator = $this->getIruserTable()->fetchAllPaginated( true ,  array( 'surname_yomi' => $surNameYomiPost ) );
-      $paginator = $this->getIruserTable()->fetchAllPaginated( true ,  array( 'surname_yomi' => $surNameYomiPost ), $forumIdPost );
-      $paginator->setCurrentPageNumber((int)$this->params()->fromQuery('page', 1));
-      $paginator->setItemCountPerPage(10);
       if ( $this->auth->hasIdentity() ) {
-        $admin_user_session = new Container('admin_user');
+        $forum_id_sess = $forum_session->forumId; // $forum_id now contains forum_id
         $admin_user_name = $admin_user_session->userName; // $admin_user_name now contains admin user name
+        $paginator = $this->getIruserTable()->fetchAllPaginated( true ,  array( 'surname_yomi' => $surNameYomiPost ), $forum_id_sess );
+        $paginator->setCurrentPageNumber((int)$this->params()->fromQuery('page', 1));
+        $paginator->setItemCountPerPage(10);
+        $admin_user_session = new Container('admin_user');
         $userIdPost = $this->params()->fromQuery('userId', '' );
         if( $userIdPost !="" ){
           $iruserData = $this->getIruserTable()->fetchAllWithUserId(array( 'user_id' => $userIdPost ) );
