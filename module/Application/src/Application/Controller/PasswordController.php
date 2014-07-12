@@ -62,12 +62,6 @@ class PasswordController extends AbstractActionController
       if($this->params()->fromQuery('page')){
         $pagePost = $this->params()->fromQuery('page', '' );
       }
-
-      if($this->params()->fromQuery('forumId')){
-        $forumIdPost = $this->params()->fromQuery('forumId', null );
-        $forum_session->forumId = $forumIdPost;
-      }
-
       if($this->params()->fromPost('surNameYomi')){
         $surNameYomi = $this->params()->fromPost('surNameYomi', null );
         $user_session->surNameYomi = $surNameYomi;
@@ -77,23 +71,6 @@ class PasswordController extends AbstractActionController
       }
       if($this->params()->fromPost('id')){
         $pageNo = (int)$this->params()->fromPost('id', 0 );
-      }
-      if($forumIdPost){
-        $data3 =[
-          "forumId" => $forumIdPost,
-        ];
-        $forumIdValidator = new Input('forumId');
-        $forumIdValidator->getValidatorChain()
-                             ->attach(new Validator\StringLength(array('min' => 1, 'max' => 19)))
-                             ->attach(new Validator\Regex(array('pattern' => '/^([0-9])+?$/')));
-        $inputFilter3 = new InputFilter();
-        $inputFilter3->add($forumIdValidator)
-                    ->setData($data3);
-        if(!$inputFilter3->isValid()){
-          $user_session->getManager()->getStorage()->clear('user');
-          throw new \Exception("The form is not valid");
-          exit;
-        }
       }
       if($surNameYomi){
         $data2 =[
@@ -116,14 +93,38 @@ class PasswordController extends AbstractActionController
       // Retrieve username from session
       $surNameYomiPost = $user_session->surNameYomi; // $surNameYomiPost now contains what has been posted
 
+      //form for registration(this form should be out of auth->hasIdentity();
       $form = new PasswordForm();
-      //passing posted string to value
-      $form2 = new SearchIruserForm(null, $surNameYomiPost);
+
+      ////passing posted string to value
+      ////$form2 = new SearchIruserForm(null, $surNameYomiPost);
 
       $request = $this->getRequest();
       $data = $request->getPost();
 
       if ( $this->auth->hasIdentity() ) {
+
+        //form for searching user 
+        $form2 = new SearchIruserForm(null, $surNameYomiPost);
+        //form for editing(updating) user 
+        $form3 = new IruserEditForm();
+
+        if($this->params()->fromQuery('forumId')){
+          $forumIdPost = $this->params()->fromQuery('forumId', null );
+          $forum_session->forumId = $forumIdPost;
+          $iruser_test = new Iruser();
+          $form3->setInputFilter($iruser_test->getInputFilter());
+          $data = [
+            "forumIdFilter" => $forumIdPost,
+          ];
+          $form3->setValidationGroup('forumIdFilter');
+          $form3->setData($data);
+          if(!$form3->isValid()){
+            throw new \Exception("The form is not valid");
+            exit;
+          }
+        }
+
         $forum_id_sess = $forum_session->forumId; // $forum_id now contains forum_id
         $admin_user_name = $admin_user_session->userName; // $admin_user_name now contains admin user name
         $paginator = $this->getIruserTable()->fetchAllPaginated( true ,  array( 'surname_yomi' => $surNameYomiPost ), $forum_id_sess );
@@ -133,7 +134,7 @@ class PasswordController extends AbstractActionController
         $userIdPost = $this->params()->fromQuery('userId', '' );
         if( $userIdPost !="" ){
           $iruserData = $this->getIruserTable()->fetchAllWithUserId(array( 'user_id' => $userIdPost ) );
-          $form3 = new IruserEditForm();
+          ////$form3 = new IruserEditForm();
           $values = array(
             'form3' => $form3,
             'iruserData' => $iruserData,
