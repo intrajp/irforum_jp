@@ -58,13 +58,8 @@ class PasswordController extends AbstractActionController
       $pagePost="";
       $user_session = new Container('user');
       $forum_session = new Container('forum');
-
       if($this->params()->fromQuery('page')){
         $pagePost = $this->params()->fromQuery('page', '' );
-      }
-      if($this->params()->fromPost('surNameYomi')){
-        $surNameYomi = $this->params()->fromPost('surNameYomi', null );
-        $user_session->surNameYomi = $surNameYomi;
       }
       if( ( $this->params()->fromPost('surNameYomi') == "" ) && ( $pagePost =="" ) ){
         $user_session->getManager()->getStorage()->clear('user');
@@ -72,38 +67,14 @@ class PasswordController extends AbstractActionController
       if($this->params()->fromPost('id')){
         $pageNo = (int)$this->params()->fromPost('id', 0 );
       }
-      if($surNameYomi){
-        $data2 =[
-          "surNameYomi" => $surNameYomi,
-        ];
-        $surNameYomiValidator = new Input('surNameYomi');
-        $surNameYomiValidator->getValidatorChain()
-                             ->attach(new Validator\StringLength(array('min' => 1, 'max' => 20)))
-                             ->attach(new Validator\Regex(array('pattern' => '/^([あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみ
-むめもやゆよらりるれろわゐゑをんが>ぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽぁぃぅぇぉっゃゅょゎ・ー　])+?$/')));
-        $inputFilter2 = new InputFilter();
-        $inputFilter2->add($surNameYomiValidator)
-                    ->setData($data2);
-        if(!$inputFilter2->isValid()){
-          $user_session->getManager()->getStorage()->clear('user');
-          throw new \Exception("The form is not valid");
-          exit;
-        }
-      }
-      // Retrieve username from session
+      // This should be out of auth->hasIdentity()////Retrieve username from session
       $surNameYomiPost = $user_session->surNameYomi; // $surNameYomiPost now contains what has been posted
-
       //form for registration(this form should be out of auth->hasIdentity();
       $form = new PasswordForm();
-
-      ////passing posted string to value
-      ////$form2 = new SearchIruserForm(null, $surNameYomiPost);
-
       $request = $this->getRequest();
       $data = $request->getPost();
 
       if ( $this->auth->hasIdentity() ) {
-
         //form for searching user 
         $form2 = new SearchIruserForm(null, $surNameYomiPost);
         //form for editing(updating) user 
@@ -124,7 +95,21 @@ class PasswordController extends AbstractActionController
             exit;
           }
         }
-
+        if($this->params()->fromPost('surNameYomi')){
+          $surNameYomi = $this->params()->fromPost('surNameYomi', null );
+          $user_session->surNameYomi = $surNameYomi;
+          $iruser_test = new Iruser();
+          $form2->setInputFilter($iruser_test->getInputFilter());
+          $data = [
+            "surNameYomiFilter" => $surNameYomi,
+          ];
+          $form2->setValidationGroup('surNameYomiFilter');
+          $form2->setData($data);
+          if(!$form2->isValid()){
+            throw new \Exception("The form is not valid");
+            exit;
+          }
+        }
         $forum_id_sess = $forum_session->forumId; // $forum_id now contains forum_id
         $admin_user_name = $admin_user_session->userName; // $admin_user_name now contains admin user name
         $paginator = $this->getIruserTable()->fetchAllPaginated( true ,  array( 'surname_yomi' => $surNameYomiPost ), $forum_id_sess );
@@ -134,7 +119,6 @@ class PasswordController extends AbstractActionController
         $userIdPost = $this->params()->fromQuery('userId', '' );
         if( $userIdPost !="" ){
           $iruserData = $this->getIruserTable()->fetchAllWithUserId(array( 'user_id' => $userIdPost ) );
-          ////$form3 = new IruserEditForm();
           $values = array(
             'form3' => $form3,
             'iruserData' => $iruserData,
@@ -555,7 +539,6 @@ class PasswordController extends AbstractActionController
     {
       if( $this->auth->hasIdentity() ){
         $userIdPost = $this->params()->fromPost('userId', null );
-        //$userIdPost = $this->params()->fromQuery('userId', null );
         if(
             ( $userIdPost !="" )
           ){
