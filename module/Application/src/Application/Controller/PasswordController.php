@@ -60,6 +60,13 @@ class PasswordController extends AbstractActionController
       $forum_session = new Container('forum');
       if($this->params()->fromQuery('page')){
         $pagePost = $this->params()->fromQuery('page', '' );
+        $surNameYomiPost = $user_session->surNameYomi; 
+      }
+      if( $this->params()->fromPost('surNameYomi') != "" ) {
+        $user_session->getManager()->getStorage()->clear('user');
+        $user_session = new Container('user');
+        $surNameYomiPost = $this->params()->fromPost('surNameYomi', null );
+        $user_session->surNameYomi = $surNameYomiPost; 
       }
       if( ( $this->params()->fromPost('surNameYomi') == "" ) && ( $pagePost =="" ) ){
         $user_session->getManager()->getStorage()->clear('user');
@@ -67,8 +74,6 @@ class PasswordController extends AbstractActionController
       if($this->params()->fromPost('id')){
         $pageNo = (int)$this->params()->fromPost('id', 0 );
       }
-      // This should be out of auth->hasIdentity()////Retrieve username from session
-      $surNameYomiPost = $user_session->surNameYomi; // $surNameYomiPost now contains what has been posted
       //form for registration(this form should be out of auth->hasIdentity();
       $form = new PasswordForm();
       $request = $this->getRequest();
