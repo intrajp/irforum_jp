@@ -85,6 +85,30 @@ class Forum implements InputFilterAwareInterface
           ),
       )));
       $inputFilter->add($factory->createInput(array(
+          'name' => 'dateFilter',
+          'required' => true,
+          'filters' => array( 
+            array('name' => 'StripTags'),
+            array('name' => 'StringTrim'),
+          ),
+          'validators' => array(
+            array(
+              'name' => 'StringLength',
+              'options' => array(
+                'encoding' => 'UTF-8', 
+                'min' => 4, 
+                'max' => 20, 
+              ),  
+            ),
+            array(
+              'name' => 'Regex',
+              'options' => array(
+                'pattern' => '/^[a-zA-Z0-9\/\-]+?$/',
+              ),  
+            ),  
+          ),
+      )));
+      $inputFilter->add($factory->createInput(array(
           'name' => 'activeFilter',
           'required' => true,
           'filters' => array( 

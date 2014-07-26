@@ -191,7 +191,7 @@ class PasswordController extends AbstractActionController
         $form->setInputFilter($password_test->getInputFilter());
         $form->setValidationGroup('loginNameFilter','passwordFilter');
         $form->setData($dataCheck);
-          if(!$form->isValid()){
+        if(!$form->isValid()){
           throw new \Exception("The form is not valid");
           exit;
         }
@@ -370,33 +370,20 @@ class PasswordController extends AbstractActionController
           $datePost = $this->params()->fromPost('datepicker', null );
           $titlePost = $this->params()->fromPost('title', null );
           $activePost = $this->params()->fromPost('checkBox', null );
-            $dataCheck = [
-              "date" => $datePost,
-              "title" => $titlePost,
-              "active" => $activePost,
-            ];
-          $dateValidator = new Input('date');
-          $dateValidator->getValidatorChain()
-                        ->attach(new Validator\StringLength(array('min' => 4, 'max' => 20)))
-                        ->attach(new Validator\Regex(array('pattern' => '/^[a-zA-Z0-9\/]+?$/')));
-          $titleValidator = new Input('title');
-          $titleValidator->getValidatorChain()
-                         ->attach(new Validator\StringLength(array('min' => 2, 'max' => 40)))
-                         ->attach(new Validator\Regex(array('pattern' => '/^[a-zA-Z0-9ぁ-んァ-ヶー一-龠 　\r\n\t]+?$/')));
-          $activeValidator = new Input('active');
-          $activeValidator->getValidatorChain()
-                         ->attach(new Validator\StringLength(array('min' => 1, 'max' => 1)))
-                         ->attach(new Validator\Regex(array('pattern' => '/^[0-1]+?$/')));
-          $inputFilter = new InputFilter();
-          $inputFilter->add($dateValidator)
-                      ->add($titleValidator)
-                      ->add($activeValidator)
-                      ->setData($dataCheck);
-          if(!$inputFilter->isValid()){
+          $form = new ForumForm();    
+          $forum = new Forum();
+          $form->setInputFilter($forum->getInputFilter());
+          $dataCheck = [
+            "dateFilter" => $datePost,
+            "titleFilter" => $titlePost,
+            "activeFilter" => $activePost,
+          ];
+          $form->setValidationGroup('dateFilter','titleFilter','activeFilter');
+          $form->setData($dataCheck);
+          if(!$form->isValid()){
             throw new \Exception("The form is not valid");
             exit;
           }
-          $forum = new Forum();
           $forum->date = $datePost;
           $forum->title = $titlePost;
           $forum->active = $activePost;
@@ -444,33 +431,21 @@ class PasswordController extends AbstractActionController
           $datePost = $this->params()->fromPost('datepicker', null );
           $titlePost = $this->params()->fromPost('title', null );
           $activePost = $this->params()->fromPost('checkBox', null );
+
+          $forum = new Forum();
+          $form->setInputFilter($forum->getInputFilter());
           $dataCheck = [
-            "date" => $datePost,
-            "title" => $titlePost,
-            "active" => $activePost,
+            "dateFilter" => $datePost,
+            "titleFilter" => $titlePost,
+            "activeFilter" => $activePost,
           ];
-          $dateValidator = new Input('date');
-          $dateValidator->getValidatorChain()
-                        ->attach(new Validator\StringLength(array('min' => 4, 'max' => 20)))
-                        ->attach(new Validator\Regex(array('pattern' => '/^[a-zA-Z0-9\/\-]+?$/')));
-          $titleValidator = new Input('title');
-          $titleValidator->getValidatorChain()
-                         ->attach(new Validator\StringLength(array('min' => 2, 'max' => 40)))
-                         ->attach(new Validator\Regex(array('pattern' => '/^[a-zA-Z0-9ぁ-んァ-ヶー一-龠 　\r\n\t]+?$/')));
-          $activeValidator = new Input('active');
-          $activeValidator->getValidatorChain()
-                         ->attach(new Validator\StringLength(array('min' => 1, 'max' => 1)))
-                         ->attach(new Validator\Regex(array('pattern' => '/^[0-1]+?$/')));
-          $inputFilter = new InputFilter();
-          $inputFilter->add($dateValidator)
-                      ->add($titleValidator)
-                      ->add($activeValidator)
-                      ->setData($dataCheck);
-          if(!$inputFilter->isValid()){
+          $form->setValidationGroup('dateFilter','titleFilter','activeFilter');
+          $form->setData($dataCheck);
+          if(!$form->isValid()){
             throw new \Exception("The form is not valid");
             exit;
           }
-          $forum = new Forum();
+
           $forum->forum_id = $forumIdPostDelUpdate;
           $forum->date = $datePost;
           $forum->title = $titlePost;
