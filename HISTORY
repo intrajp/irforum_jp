@@ -1,3 +1,7 @@
+20140728 irforum-3.11 
+  Passwordコントローラの修正-Forum のValidator関連
+20140727 irforum-3.10 
+  Passwordコントローラの修正-Password のloginのValidator関連
 20140717 irforum-3.09 
   Password Controller のユーザ検索のバグを修正
 20140713 irforum-3.08 
