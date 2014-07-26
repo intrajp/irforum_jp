@@ -184,22 +184,14 @@ class PasswordController extends AbstractActionController
       if(($loginName)||($password)){
         /*check if post is valid*/
         $dataCheck =[
-          "loginName" => $loginName,
-          "password" => $password,
+          "loginNameFilter" => $loginName,
+          "passwordFilter" => $password,
         ];
-        $loginNameValidator = new Input('loginName');
-        $loginNameValidator->getValidatorChain()
-                         ->attach(new Validator\StringLength(array('min' => 4, 'max' => 20)))
-                           ->attach(new Validator\Regex(array('pattern' => '/^[a-zA-Z0-9]+?$/')));
-        $passwordValidator = new Input('password');
-        $passwordValidator->getValidatorChain()
-                           ->attach(new Validator\StringLength(array('min' => 8, 'max' => 16)))
-                           ->attach(new Validator\Regex(array('pattern' => '/^[a-zA-Z0-9]+?$/')));
-        $inputFilter = new InputFilter();
-        $inputFilter->add($loginNameValidator)
-                    ->add($passwordValidator)
-                    ->setData($dataCheck);
-        if(!$inputFilter->isValid()){
+        $password_test = new Password();
+        $form->setInputFilter($password_test->getInputFilter());
+        $form->setValidationGroup('loginNameFilter','passwordFilter');
+        $form->setData($dataCheck);
+          if(!$form->isValid()){
           throw new \Exception("The form is not valid");
           exit;
         }
